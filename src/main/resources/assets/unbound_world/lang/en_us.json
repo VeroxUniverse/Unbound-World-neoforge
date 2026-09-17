@@ -1,0 +1,21 @@
+{
+  "config.jade.plugin_unbound_world.locked_block": "Sealed Blocks",
+
+  "message.unbound_world.block_locked": "§cThis block resists your tools. Defeat the required boss first!§r",
+  "message.unbound_world.block_place_locked": "§cYou cannot place this block yet. Missing stage progression!§r",
+  "message.unbound_world.item_locked": "§cYou cannot wield or activate this artifact yet!§r",
+  "message.unbound_world.weapon_nerfed": "§eYour weapon's power is suppressed to base level!§r",
+
+  "tooltip.unbound_world.locked_title": "§4[Sealed Artifact]§r",
+  "tooltip.unbound_world.locked_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.unbound_world.locked_status": " §8• §cPower Suppressed§r",
+
+  "tooltip.unbound_world.locked_block_title": "§4[Sealed Material]§r",
+  "tooltip.unbound_world.locked_block_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.unbound_world.locked_block_status": " §8• §cCannot be harvested or placed§r",
+
+  "stage.unbound_world.echoes": "The Echoes",
+  "stage.unbound_world.hellfire": "Hellfire Unleashed",
+  "stage.unbound_world.void_call": "The Void Call",
+  "stage.unbound_world.apotheosis": "Apotheosis"
+}
