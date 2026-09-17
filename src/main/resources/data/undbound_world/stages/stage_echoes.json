@@ -1,0 +1,54 @@
+{
+  "order": 0,
+  "stage_translation_key": "stage.unbound_world.echoes",
+  "main_boss": {
+    "entity_id": "minecraft:elder_guardian",
+    "display_item": "minecraft:heart_of_the_sea",
+    "location_translation_key": "boss.unbound_world.elder_guardian.location",
+    "drops": {
+      "mode": "replace",
+      "drops": [
+        { "item": "minecraft:golden_apple", "count_min": 1, "count_max": 2, "chance": 1.0 },
+        { "item": "minecraft:heart_of_the_sea", "count_min": 1, "count_max": 1, "chance": 0.5 }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:drowned",
+      "display_item": "minecraft:trident",
+      "location_translation_key": "boss.unbound_world.drowned.location",
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:cow",
+      "display_item": "minecraft:leather",
+      "location_translation_key": "boss.unbound_world.cow.location",
+      "drops": {
+        "mode": "none",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:pufferfish",
+      "display_item": "minecraft:pufferfish",
+      "location_translation_key": "boss.unbound_world.pufferfish.location",
+      "drops": {
+        "mode": "additional",
+        "drops": [
+          { "item": "minecraft:pufferfish_bucket", "count_min": 1, "count_max": 1, "chance": 0.1 }
+        ]
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:trident"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:prismarine",
+    "minecraft:sea_lantern"
+  ]
+}

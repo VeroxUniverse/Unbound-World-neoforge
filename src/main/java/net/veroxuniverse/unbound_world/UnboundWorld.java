@@ -3,6 +3,7 @@ package net.veroxuniverse.unbound_world;
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -10,9 +11,10 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.veroxuniverse.unbound_world.command.StageCommand;
+import net.veroxuniverse.unbound_world.compat.curios.CuriosRestrictionHandler;
 import net.veroxuniverse.unbound_world.handler.BlockRestrictionHandler;
 import net.veroxuniverse.unbound_world.handler.ItemRestrictionHandler;
-import net.veroxuniverse.unbound_world.stage.StageManager;
+import net.veroxuniverse.unbound_world.stage.StageDataLoader;
 import net.veroxuniverse.unbound_world.stage.WorldStageSavedData;
 import org.slf4j.Logger;
 
@@ -30,6 +32,10 @@ public class UnboundWorld {
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
         NeoForge.EVENT_BUS.addListener(this::onLevelLoad);
 
+        if (ModList.get().isLoaded("curios")) {
+            NeoForge.EVENT_BUS.register(new CuriosRestrictionHandler());
+        }
+
         LOGGER.info("Unbound World initialized successfully.");
     }
 
@@ -37,7 +43,7 @@ public class UnboundWorld {
     }
 
     private void onAddReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new StageManager());
+        event.addListener(new StageDataLoader());
     }
 
     private void registerCommands(RegisterCommandsEvent event) {

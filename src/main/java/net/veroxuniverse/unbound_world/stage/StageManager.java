@@ -1,75 +1,81 @@
 package net.veroxuniverse.unbound_world.stage;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.veroxuniverse.unbound_world.UnboundWorld;
 
 import java.util.*;
 
-public class StageManager extends SimpleJsonResourceReloadListener {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Map<ResourceLocation, StageData> STAGES = new HashMap<>();
+public class StageManager {
 
     private static int currentUnlockedOrder = -1;
 
-    public StageManager() {
-        super(GSON, "unbound_stages");
-    }
+    private static final Map<ResourceLocation, StageDefinition> STAGES = new HashMap<>();
+    private static final Map<ResourceLocation, StageDefinition> ITEM_RESTRICTIONS = new HashMap<>();
+    private static final Map<ResourceLocation, StageDefinition> BLOCK_RESTRICTIONS = new HashMap<>();
+    private static final Map<ResourceLocation, StageDefinition> BOSS_TRIGGERS = new HashMap<>();
+    private static final Map<ResourceLocation, StageDefinition> MAIN_BOSS_TRIGGERS = new HashMap<>();
+    private static final Map<ResourceLocation, StageDefinition.BossInfo> ALL_BOSS_INFOS = new HashMap<>();
 
-    @Override
-    protected void apply(Map<ResourceLocation, JsonElement> resources, ResourceManager resourceManager, ProfilerFiller profiler) {
+    public static synchronized void reloadStages(Map<ResourceLocation, StageDefinition> newStages) {
         STAGES.clear();
+        ITEM_RESTRICTIONS.clear();
+        BLOCK_RESTRICTIONS.clear();
+        MAIN_BOSS_TRIGGERS.clear();
+        ALL_BOSS_INFOS.clear();
 
-        for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet()) {
-            ResourceLocation fileId = entry.getKey();
-            JsonElement json = entry.getValue();
+        STAGES.putAll(newStages);
 
-            StageData.CODEC.parse(JsonOps.INSTANCE, json)
-                    .resultOrPartial(error -> UnboundWorld.LOGGER.error("Failed to parse stage {}: {}", fileId, error))
-                    .ifPresent(stage -> {
-                        STAGES.put(stage.id(), stage);
-                        UnboundWorld.LOGGER.info("Loaded Stage: {} (Order: {})", stage.id(), stage.order());
-                    });
-        }
-    }
-
-    public static boolean isItemLocked(ResourceLocation itemId) {
-        for (StageData stage : STAGES.values()) {
-            if (stage.order() > currentUnlockedOrder && stage.lockedItems().contains(itemId)) {
-                return true;
+        for (StageDefinition stage : STAGES.values()) {
+            for (ResourceLocation item : stage.lockedItems()) {
+                ITEM_RESTRICTIONS.put(item, stage);
+            }
+            for (ResourceLocation block : stage.lockedBlocks()) {
+                BLOCK_RESTRICTIONS.put(block, stage);
+            }
+            stage.mainBoss().ifPresent(boss -> {
+                MAIN_BOSS_TRIGGERS.put(boss.entityId(), stage);
+                ALL_BOSS_INFOS.put(boss.entityId(), boss);
+            });
+            for (StageDefinition.BossInfo optBoss : stage.optionalBosses()) {
+                ALL_BOSS_INFOS.put(optBoss.entityId(), optBoss);
             }
         }
-        return false;
-    }
-
-    public static boolean isBlockLocked(ResourceLocation blockId) {
-        for (StageData stage : STAGES.values()) {
-            if (stage.order() > currentUnlockedOrder && stage.lockedBlocks().contains(blockId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Optional<StageData> getRequiredStageForItem(ResourceLocation itemId) {
-        return STAGES.values().stream()
-                .filter(stage -> stage.lockedItems().contains(itemId))
-                .findFirst();
-    }
-
-    public static Optional<StageData> getRequiredStageForBlock(ResourceLocation blockId) {
-        return STAGES.values().stream()
-                .filter(stage -> stage.lockedBlocks().contains(blockId))
-                .findFirst();
     }
 
     public static void setUnlockedOrder(int order) {
         currentUnlockedOrder = order;
+    }
+
+    public static int getUnlockedOrder() {
+        return currentUnlockedOrder;
+    }
+
+    public static boolean isItemLocked(ResourceLocation itemId) {
+        StageDefinition req = ITEM_RESTRICTIONS.get(itemId);
+        return req != null && req.order() > currentUnlockedOrder;
+    }
+
+    public static boolean isBlockLocked(ResourceLocation blockId) {
+        StageDefinition req = BLOCK_RESTRICTIONS.get(blockId);
+        return req != null && req.order() > currentUnlockedOrder;
+    }
+
+    public static Optional<StageDefinition> getRequiredStageForItem(ResourceLocation itemId) {
+        return Optional.ofNullable(ITEM_RESTRICTIONS.get(itemId));
+    }
+
+    public static Optional<StageDefinition> getRequiredStageForBlock(ResourceLocation blockId) {
+        return Optional.ofNullable(BLOCK_RESTRICTIONS.get(blockId));
+    }
+
+    public static Collection<StageDefinition> getAllStages() {
+        return STAGES.values();
+    }
+
+    public static Optional<StageDefinition> getStageForBoss(ResourceLocation entityId) {
+        return Optional.ofNullable(MAIN_BOSS_TRIGGERS.get(entityId));
+    }
+
+    public static Optional<StageDefinition.BossInfo> getBossInfo(ResourceLocation entityId) {
+        return Optional.ofNullable(ALL_BOSS_INFOS.get(entityId));
     }
 }

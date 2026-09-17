@@ -1,21 +1,79 @@
 {
   "config.jade.plugin_unbound_world.locked_block": "Sealed Blocks",
 
-  "message.unbound_world.block_locked": "§cThis block resists your tools. Defeat the required boss first!§r",
-  "message.unbound_world.block_place_locked": "§cYou cannot place this block yet. Missing stage progression!§r",
-  "message.unbound_world.item_locked": "§cYou cannot wield or activate this artifact yet!§r",
-  "message.unbound_world.weapon_nerfed": "§eYour weapon's power is suppressed to base level!§r",
+  "message.unbound_world.block_locked": "§cThis block remains sealed to you.§r",
+  "message.unbound_world.block_place_locked": "§cYou cannot place sealed blocks yet.§r",
+  "message.unbound_world.item_locked": "§cThis sealed item rejects your touch.§r",
+  "message.unbound_world.weapon_nerfed": "§eYour weapon's power is suppressed to base level.§r",
+  "message.unbound_world.stage_unlocked": "§aA seal has broken! Stage unlocked: §e%s§r",
 
-  "tooltip.unbound_world.locked_title": "§4[Sealed Artifact]§r",
+  "title.unbound_world.stage_unlocked": "§6§lSEAL BROKEN§r",
+
+  "tooltip.unbound_world.locked_title": "§4[Sealed Item]§r",
   "tooltip.unbound_world.locked_stage": " §8• §7Requires: §e%s§r",
-  "tooltip.unbound_world.locked_status": " §8• §cPower Suppressed§r",
+  "tooltip.unbound_world.locked_status": " §8• §cSealed§r",
 
-  "tooltip.unbound_world.locked_block_title": "§4[Sealed Material]§r",
+  "tooltip.unbound_world.locked_block_title": "§4[Sealed Block]§r",
   "tooltip.unbound_world.locked_block_stage": " §8• §7Requires: §e%s§r",
-  "tooltip.unbound_world.locked_block_status": " §8• §cCannot be harvested or placed§r",
+  "tooltip.unbound_world.locked_block_status": " §8• §cSealed§r",
 
   "stage.unbound_world.echoes": "The Echoes",
+  "stage.unbound_world.echoes.summary": "The seas grow restless. Depths once calm now hide guardians of ancient treasure.",
+  "stage.unbound_world.sculk_dread": "Sculk Dread",
+  "stage.unbound_world.sculk_dread.summary": "Something ancient listens in the deep dark. Every step echoes closer to its wrath.",
   "stage.unbound_world.hellfire": "Hellfire Unleashed",
+  "stage.unbound_world.hellfire.summary": "The Nether's fury boils over. Its undying tyrant demands a reckoning.",
   "stage.unbound_world.void_call": "The Void Call",
-  "stage.unbound_world.apotheosis": "Apotheosis"
+  "stage.unbound_world.void_call.summary": "Beyond the stars, the End awakens. Its ancient sentinel guards what should not be taken.",
+  "stage.unbound_world.apotheosis": "Apotheosis",
+  "stage.unbound_world.apotheosis.summary": "The final seal strains against a power beyond mortal reckoning.",
+
+  "key.categories.unbound_world": "Unbound World",
+  "key.unbound_world.open_guide": "Open World Guide",
+
+  "gui.unbound_world.guide_title": "The Unbound Progression",
+  "gui.unbound_world.sealed_world": "Sealed World",
+  "gui.unbound_world.stage_number": "Stage %s",
+  "gui.unbound_world.world_stage_prefix": "World Stage: ",
+  "gui.unbound_world.progressions_label": "World Progressions:",
+  "gui.unbound_world.stage_summary_label": "Stage Summary:",
+  "gui.unbound_world.sealed_items_label": "Sealed Items & Blocks:",
+  "gui.unbound_world.main_boss_prefix": "Main Boss: ",
+  "gui.unbound_world.spawn_info_label": "Spawn Information:",
+  "gui.unbound_world.drops_label": "Drops:",
+  "gui.unbound_world.details_suffix": " - Details",
+  "gui.unbound_world.click_to_open": "§7[Click to open]§r",
+  "gui.unbound_world.click_to_see_details": "§7[Click to see boss details]§r",
+  "gui.unbound_world.click_to_go_back": "§7[Click to go back]§r",
+  "gui.unbound_world.locked_until_defeated": "§cLocked until defeated!§r",
+  "gui.unbound_world.chance_label": "§7Chance: §e%s%%§r",
+  "gui.unbound_world.chance_label_approx": "§7Chance: §e~%s%%§r",
+  "gui.unbound_world.amount_label": "§7Amount: §f%s - %s§r",
+  "gui.unbound_world.avg_amount_label": "§7Avg amount: §f%s§r",
+
+  "boss.unbound_world.elder_guardian.location": "Found in ocean monuments, guarding the depths alongside its guardian kin.",
+  "boss.unbound_world.drowned.location": "Roams flooded ruins and ocean floors, sometimes wielding a trident.",
+  "boss.unbound_world.cow.location": "Grazes peacefully in grassy biomes across the Overworld.",
+  "boss.unbound_world.pufferfish.location": "Drifts through warm ocean waters, puffing up when threatened.",
+
+  "boss.unbound_world.warden.location": "Emerges from the deepest sculk shrieker alarms within an Ancient City.",
+  "boss.unbound_world.zombie.location": "Shambles through the Overworld at night or in dark places.",
+  "boss.unbound_world.chicken.location": "Wanders grassy plains and forests across the Overworld.",
+  "boss.unbound_world.enderman.location": "Teleports across the Overworld, End, and Nether, avoiding water.",
+
+  "boss.unbound_world.wither.location": "Summoned by placing four Soul Sand or Soul Soil in a T-shape and three Wither Skeleton Skulls on top.",
+  "boss.unbound_world.skeleton.location": "Patrols dark caves and the surface at night, armed with a bow.",
+  "boss.unbound_world.pig.location": "Roots through grassy plains and forests across the Overworld.",
+  "boss.unbound_world.piglin_brute.location": "Guards Bastion Remnants deep within the Nether.",
+
+  "boss.unbound_world.ender_dragon.location": "Circles the central obsidian pillars of the End dimension.",
+  "boss.unbound_world.shulker.location": "Hides within End City towers, camouflaged against the purpur blocks.",
+  "boss.unbound_world.sheep.location": "Grazes peacefully in grassy biomes across the Overworld.",
+  "boss.unbound_world.endermite.location": "Rarely spawns when a player uses an Ender Pearl.",
+
+  "boss.unbound_world.wither_skeleton.location": "Stalks the dark fortress halls of the Nether.",
+  "boss.unbound_world.spider.location": "Climbs walls and lurks in caves during the night.",
+  "boss.unbound_world.husk.location": "Wanders desert biomes under the scorching sun, immune to burning.",
+  "boss.unbound_world.rabbit.location": "Hops through plains, deserts, and snowy tundras.",
+  "boss.unbound_world.vindicator.location": "Guards Woodland Mansions and Pillager Outposts with an axe."
 }

@@ -1,16 +1,25 @@
 package net.veroxuniverse.unbound_world.stage;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.veroxuniverse.unbound_world.compat.curios.CuriosRestrictionHandler;
+import net.veroxuniverse.unbound_world.network.SyncStagePayload;
 
 import java.util.List;
 
@@ -53,6 +62,8 @@ public class WorldStageSavedData extends SavedData {
         StageManager.setUnlockedOrder(order);
         this.setDirty();
 
+        PacketDistributor.sendToAllPlayers(new SyncStagePayload(order));
+
         for (ServerPlayer player : level.getServer().getPlayerList().getPlayers()) {
             if (player.isCreative()) continue;
 
@@ -61,10 +72,20 @@ public class WorldStageSavedData extends SavedData {
                 if (!stack.isEmpty()) {
                     ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
                     if (StageManager.isItemLocked(itemId)) {
+                        ItemAttributeModifiers itemModifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
+                        itemModifiers.forEach(slot, (attributeHolder, modifier) -> {
+                            var inst = player.getAttributes().getInstance(attributeHolder);
+                            if (inst != null) {
+                                inst.removeModifier(modifier.id());
+                            }
+                        });
+
                         player.setItemSlot(slot, ItemStack.EMPTY);
+
                         if (!player.getInventory().add(stack)) {
                             player.drop(stack, false);
                         }
+
                         player.displayClientMessage(
                                 Component.translatable("message.unbound_world.item_locked"),
                                 true
@@ -72,34 +93,50 @@ public class WorldStageSavedData extends SavedData {
                     }
                 }
             }
+
+            if (ModList.get().isLoaded("curios")) {
+                CuriosRestrictionHandler.checkAndUnequipCurios(player);
+            }
+
             refreshPlayerEquipmentAttributes(player);
         }
     }
 
     public static void refreshPlayerEquipmentAttributes(ServerPlayer player) {
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
+        var armorInst = player.getAttributes().getInstance(Attributes.ARMOR);
+        if (armorInst != null) {
+            armorInst.getModifiers().stream().toList().forEach(mod -> armorInst.removeModifier(mod.id()));
+        }
+
+        var toughnessInst = player.getAttributes().getInstance(Attributes.ARMOR_TOUGHNESS);
+        if (toughnessInst != null) {
+            toughnessInst.getModifiers().stream().toList().forEach(mod -> toughnessInst.removeModifier(mod.id()));
+        }
+
+        for (EquipmentSlot slot : List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)) {
             ItemStack stack = player.getItemBySlot(slot);
             if (!stack.isEmpty()) {
-                stack.forEachModifier(slot, (attributeHolder, modifier) -> {
-                    var instance = player.getAttributes().getInstance(attributeHolder);
-                    if (instance != null) {
-                        instance.removeModifier(modifier.id());
-                    }
-                });
-
-                stack.forEachModifier(slot, (attributeHolder, modifier) -> {
-                    var instance = player.getAttributes().getInstance(attributeHolder);
-                    if (instance != null) {
-                        instance.addTransientModifier(modifier);
-                    }
-                });
+                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+                if (!StageManager.isItemLocked(itemId)) {
+                    ItemAttributeModifiers itemModifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
+                    itemModifiers.forEach(slot, (attributeHolder, modifier) -> {
+                        var inst = player.getAttributes().getInstance(attributeHolder);
+                        if (inst != null && !inst.hasModifier(modifier.id())) {
+                            inst.addTransientModifier(modifier);
+                        }
+                    });
+                }
             }
         }
 
         if (player.connection != null) {
+            var attributesToSync = new java.util.ArrayList<net.minecraft.world.entity.ai.attributes.AttributeInstance>();
+            if (armorInst != null) attributesToSync.add(armorInst);
+            if (toughnessInst != null) attributesToSync.add(toughnessInst);
+
             player.connection.send(new ClientboundUpdateAttributesPacket(
                     player.getId(),
-                    player.getAttributes().getSyncableAttributes()
+                    attributesToSync
             ));
         }
 
@@ -109,11 +146,5 @@ public class WorldStageSavedData extends SavedData {
 
     public int getUnlockedOrder() {
         return this.currentUnlockedOrder;
-    }
-
-    public void setUnlockedOrder(int order) {
-        this.currentUnlockedOrder = order;
-        StageManager.setUnlockedOrder(order);
-        this.setDirty();
     }
 }

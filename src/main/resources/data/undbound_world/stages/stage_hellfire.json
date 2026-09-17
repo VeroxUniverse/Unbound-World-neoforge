@@ -1,0 +1,56 @@
+{
+  "order": 2,
+  "stage_translation_key": "stage.unbound_world.hellfire",
+  "main_boss": {
+    "entity_id": "minecraft:wither",
+    "display_item": "minecraft:nether_star",
+    "location_translation_key": "boss.unbound_world.wither.location",
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        { "item": "minecraft:netherite_scrap", "count_min": 2, "count_max": 4, "chance": 1.0 },
+        { "item": "minecraft:ancient_debris", "count_min": 1, "count_max": 2, "chance": 0.75 },
+        { "item": "minecraft:diamond", "count_min": 1, "count_max": 3, "chance": 0.5 }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:skeleton",
+      "display_item": "minecraft:bow",
+      "location_translation_key": "boss.unbound_world.skeleton.location",
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:pig",
+      "display_item": "minecraft:porkchop",
+      "location_translation_key": "boss.unbound_world.pig.location",
+      "drops": {
+        "mode": "none",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:piglin_brute",
+      "display_item": "minecraft:golden_axe",
+      "location_translation_key": "boss.unbound_world.piglin_brute.location",
+      "drops": {
+        "mode": "additional",
+        "drops": [
+          { "item": "minecraft:gold_ingot", "count_min": 1, "count_max": 2, "chance": 0.4 }
+        ]
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:netherite_sword",
+    "minecraft:netherite_pickaxe",
+    "minecraft:netherite_chestplate"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:ancient_debris"
+  ]
+}

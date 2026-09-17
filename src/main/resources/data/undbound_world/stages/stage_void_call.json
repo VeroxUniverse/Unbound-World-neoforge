@@ -1,0 +1,51 @@
+{
+  "order": 3,
+  "stage_translation_key": "stage.unbound_world.void_call",
+  "main_boss": {
+    "entity_id": "minecraft:ender_dragon",
+    "display_item": "minecraft:dragon_egg",
+    "location_translation_key": "boss.unbound_world.ender_dragon.location",
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        { "item": "minecraft:elytra", "count_min": 1, "count_max": 1, "chance": 1.0 }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:shulker",
+      "display_item": "minecraft:shulker_shell",
+      "location_translation_key": "boss.unbound_world.shulker.location",
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:sheep",
+      "display_item": "minecraft:white_wool",
+      "location_translation_key": "boss.unbound_world.sheep.location",
+      "drops": {
+        "mode": "none",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:endermite",
+      "display_item": "minecraft:ender_pearl",
+      "location_translation_key": "boss.unbound_world.endermite.location",
+      "drops": {
+        "mode": "replace",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:elytra",
+    "minecraft:shulker_shell"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:end_stone"
+  ]
+}
