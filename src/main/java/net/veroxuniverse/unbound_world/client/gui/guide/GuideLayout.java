@@ -6,7 +6,7 @@ public final class GuideLayout {
     public static final int GUI_WIDTH = 256;
     public static final int GUI_HEIGHT = 166;
 
-    public static final int CONTENT_LEFT_OFFSET = 8;
+    public static final int CONTENT_LEFT_OFFSET = 10;
     public static final int CONTENT_RIGHT_OFFSET = 228;
     public static final int CONTENT_TOP_OFFSET = 47;
     public static final int CONTENT_BOTTOM_OFFSET = 156;

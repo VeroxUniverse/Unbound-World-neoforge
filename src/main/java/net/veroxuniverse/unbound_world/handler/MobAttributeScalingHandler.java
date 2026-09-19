@@ -1,6 +1,8 @@
 package net.veroxuniverse.unbound_world.handler;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,18 +25,27 @@ public class MobAttributeScalingHandler {
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
 
-        // Only hostile mobs are affected. Passive/neutral animals (Animal, AbstractFish, etc.)
-        // and any entity that does not extend Monster is intentionally left untouched.
-        if (!(event.getEntity() instanceof Monster monster)) return;
+        if (!(event.getEntity() instanceof LivingEntity living)) return;
+
+        // Hostile mobs (Monster subclasses) are always eligible. Registered bosses are
+        // eligible too, even if their vanilla class does not extend Monster (e.g. the
+        // Ender Dragon extends Mob directly, Ghast and Magma Cube are not Monster either) -
+        // otherwise those bosses would only ever receive the per-player boss bonus on top
+        // of an un-scaled base, instead of on top of the stage's general scaling like every
+        // other hostile mob.
+        boolean isHostileMob = living instanceof Monster;
+        boolean isRegisteredBoss = StageManager.getBossInfo(BuiltInRegistries.ENTITY_TYPE.getKey(living.getType())).isPresent();
+
+        if (!isHostileMob && !isRegisteredBoss) return;
 
         StageDefinition.MobAttributeScaling scaling = StageManager.getCurrentMobAttributeScaling();
         if (scaling.isNoOp()) return;
 
-        AttributeScalingUtil.applyFractionModifier(monster, Attributes.MAX_HEALTH, HEALTH_MODIFIER_ID, scaling.healthMultiplier() - 1.0f);
-        AttributeScalingUtil.applyFractionModifier(monster, Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER_ID, scaling.damageMultiplier() - 1.0f);
-        AttributeScalingUtil.applyFractionModifier(monster, Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE_MODIFIER_ID, scaling.knockbackResistanceMultiplier() - 1.0f);
-        AttributeScalingUtil.applyFractionModifier(monster, Attributes.ARMOR, ARMOR_MODIFIER_ID, scaling.armorMultiplier() - 1.0f);
+        AttributeScalingUtil.applyFractionModifier(living, Attributes.MAX_HEALTH, HEALTH_MODIFIER_ID, scaling.healthMultiplier() - 1.0f);
+        AttributeScalingUtil.applyFractionModifier(living, Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER_ID, scaling.damageMultiplier() - 1.0f);
+        AttributeScalingUtil.applyFractionModifier(living, Attributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE_MODIFIER_ID, scaling.knockbackResistanceMultiplier() - 1.0f);
+        AttributeScalingUtil.applyFractionModifier(living, Attributes.ARMOR, ARMOR_MODIFIER_ID, scaling.armorMultiplier() - 1.0f);
 
-        monster.setHealth(monster.getMaxHealth());
+        living.setHealth(living.getMaxHealth());
     }
 }
