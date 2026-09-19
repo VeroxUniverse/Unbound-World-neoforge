@@ -6,6 +6,9 @@
   "mixins": [
   ],
   "client": [
+    "client.OreRenderDisguiseMixin",
+    "client.BlockBreakingDisguiseMixin",
+    "client.BreakParticleDisguiseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
