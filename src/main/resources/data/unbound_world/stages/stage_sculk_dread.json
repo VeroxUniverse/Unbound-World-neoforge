@@ -1,0 +1,103 @@
+{
+  "order": 2,
+  "stage_translation_key": "stage.unbound_world.sculk_dread",
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.3,
+    "damage_multiplier": 1.2,
+    "knockback_resistance_multiplier": 1.0,
+    "armor_multiplier": 1.05
+  },
+  "mob_equipment": [
+    {
+      "entity_ids": [
+        "minecraft:zombie",
+        "minecraft:husk",
+        "minecraft:drowned",
+        "minecraft:zombie_villager"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:iron_sword",
+          "enchantments": [
+            {
+              "id": "minecraft:sharpness",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        },
+        {
+          "slot": "head",
+          "item": "minecraft:iron_helmet",
+          "enchantments": [],
+          "drop_chance": 0.0
+        }
+      ]
+    },
+    {
+      "entity_ids": [
+        "minecraft:skeleton",
+        "minecraft:stray"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:bow",
+          "enchantments": [
+            {
+              "id": "minecraft:power",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        }
+      ]
+    }
+  ],
+  "main_boss": {
+    "entity_id": "minecraft:warden",
+    "display_item": "minecraft:echo_shard",
+    "location_translation_key": "boss.unbound_world.warden.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 40.0,
+      "health_per_extra_player": 0.5,
+      "damage_per_extra_player": 0.2,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "minecraft:echo_shard",
+          "count_min": 1,
+          "count_max": 3,
+          "chance": 1.0
+        },
+        {
+          "item": "minecraft:sculk_catalyst",
+          "count_min": 1,
+          "count_max": 1,
+          "chance": 0.25
+        }
+      ]
+    }
+  },
+  "optional_bosses": [],
+  "locked_items": [
+    "minecraft:echo_shard",
+    "minecraft:recovery_compass",
+    "minecraft:ender_eye"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:sculk",
+    "minecraft:sculk_catalyst",
+    "minecraft:sculk_sensor",
+    "minecraft:sculk_shrieker"
+  ],
+  "locked_dimensions": [
+    "minecraft:the_nether"
+  ]
+}

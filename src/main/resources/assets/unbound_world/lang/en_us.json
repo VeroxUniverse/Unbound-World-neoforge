@@ -6,6 +6,10 @@
   "message.unbound_world.item_locked": "§cThis sealed item rejects your touch.§r",
   "message.unbound_world.weapon_nerfed": "§eYour weapon's power is suppressed to base level.§r",
   "message.unbound_world.stage_unlocked": "§aA seal has broken! Stage unlocked: §e%s§r",
+  "message.unbound_world.boss_sealed": "§cThis foe is sealed until §e%s§c is cleared.§r",
+  "message.unbound_world.boss_sealed_generic": "§cThis foe remains sealed to you.§r",
+  "message.unbound_world.dimension_sealed": "§cThe way is sealed until §e%s§c is cleared.§r",
+  "message.unbound_world.dimension_sealed_generic": "§cThis dimension remains sealed to you.§r",
 
   "title.unbound_world.stage_unlocked": "§6§lSEAL BROKEN§r",
 
@@ -17,16 +21,20 @@
   "tooltip.unbound_world.locked_block_stage": " §8• §7Requires: §e%s§r",
   "tooltip.unbound_world.locked_block_status": " §8• §cSealed§r",
 
+  "tooltip.unbound_world.locked_ore_title": "§4[Sealed Ore]§r",
+  "tooltip.unbound_world.locked_ore_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.unbound_world.locked_ore_status": " §8• §cYields no ore while sealed§r",
+
+  "stage.unbound_world.raiders_dawn": "Raiders' Dawn",
+  "stage.unbound_world.raiders_dawn.summary": "A pillager raid threatens the land. Defeat its evoker to earn your first taste of undying power.",
   "stage.unbound_world.echoes": "The Echoes",
-  "stage.unbound_world.echoes.summary": "The seas grow restless. Depths once calm now hide guardians of ancient treasure.",
+  "stage.unbound_world.echoes.summary": "The seas grow restless. Depths once calm now hide a guardian of ancient treasure.",
   "stage.unbound_world.sculk_dread": "Sculk Dread",
   "stage.unbound_world.sculk_dread.summary": "Something ancient listens in the deep dark. Every step echoes closer to its wrath.",
   "stage.unbound_world.hellfire": "Hellfire Unleashed",
   "stage.unbound_world.hellfire.summary": "The Nether's fury boils over. Its undying tyrant demands a reckoning.",
   "stage.unbound_world.void_call": "The Void Call",
   "stage.unbound_world.void_call.summary": "Beyond the stars, the End awakens. Its ancient sentinel guards what should not be taken.",
-  "stage.unbound_world.apotheosis": "Apotheosis",
-  "stage.unbound_world.apotheosis.summary": "The final seal strains against a power beyond mortal reckoning.",
 
   "key.categories.unbound_world": "Unbound World",
   "key.unbound_world.open_guide": "Open World Guide",
@@ -46,34 +54,35 @@
   "gui.unbound_world.click_to_see_details": "§7[Click to see boss details]§r",
   "gui.unbound_world.click_to_go_back": "§7[Click to go back]§r",
   "gui.unbound_world.locked_until_defeated": "§cLocked until defeated!§r",
+  "gui.unbound_world.locked_ore_notice": "§cYields no ore until defeated!§r",
   "gui.unbound_world.chance_label": "§7Chance: §e%s%%§r",
   "gui.unbound_world.chance_label_approx": "§7Chance: §e~%s%%§r",
   "gui.unbound_world.amount_label": "§7Amount: §f%s - %s§r",
   "gui.unbound_world.avg_amount_label": "§7Avg amount: §f%s§r",
+  "gui.unbound_world.boss_progression_label": "Boss Progression:",
+  "gui.unbound_world.guaranteed_drop_label": "§7Guaranteed drop§r",
+
+  "boss.unbound_world.evoker.location": "Leads pillager raids that assault villages with an Ominous Bottle or a raid horn.",
+  "boss.unbound_world.pillager.location": "Marches with raiding parties and patrols, crossbow in hand.",
+  "boss.unbound_world.vindicator.location": "Guards Woodland Mansions and marches with raiding parties.",
+  "boss.unbound_world.ravager.location": "Charges alongside raiding parties, ridden by pillager captains.",
+  "boss.unbound_world.vex.location": "Summoned by an evoker, flitting erratically through walls.",
+  "boss.unbound_world.illusioner.location": "A rare, elusive raider that conjures illusions and blinding magic.",
 
   "boss.unbound_world.elder_guardian.location": "Found in ocean monuments, guarding the depths alongside its guardian kin.",
-  "boss.unbound_world.drowned.location": "Roams flooded ruins and ocean floors, sometimes wielding a trident.",
-  "boss.unbound_world.cow.location": "Grazes peacefully in grassy biomes across the Overworld.",
-  "boss.unbound_world.pufferfish.location": "Drifts through warm ocean waters, puffing up when threatened.",
+  "boss.unbound_world.guardian.location": "Patrols ocean monuments, striking with a laser gaze.",
 
   "boss.unbound_world.warden.location": "Emerges from the deepest sculk shrieker alarms within an Ancient City.",
-  "boss.unbound_world.zombie.location": "Shambles through the Overworld at night or in dark places.",
-  "boss.unbound_world.chicken.location": "Wanders grassy plains and forests across the Overworld.",
-  "boss.unbound_world.enderman.location": "Teleports across the Overworld, End, and Nether, avoiding water.",
 
-  "boss.unbound_world.wither.location": "Summoned by placing four Soul Sand or Soul Soil in a T-shape and three Wither Skeleton Skulls on top.",
-  "boss.unbound_world.skeleton.location": "Patrols dark caves and the surface at night, armed with a bow.",
-  "boss.unbound_world.pig.location": "Roots through grassy plains and forests across the Overworld.",
+  "boss.unbound_world.wither.location": "Summoned in the Nether wastes by those bold enough to defy its return.",
+  "boss.unbound_world.blaze.location": "Guards Nether Fortresses, hurling fireballs from above.",
+  "boss.unbound_world.ghast.location": "Drifts through Nether skies, raining explosive fireballs.",
+  "boss.unbound_world.magma_cube.location": "Bounces through the Nether's basalt deltas and fortresses.",
+  "boss.unbound_world.wither_skeleton.location": "Stalks the dark fortress halls of the Nether.",
   "boss.unbound_world.piglin_brute.location": "Guards Bastion Remnants deep within the Nether.",
+  "boss.unbound_world.hoglin.location": "Roams the crimson forests of the Nether in aggressive herds.",
+  "boss.unbound_world.zoglin.location": "A corrupted hoglin, mindlessly hostile wherever it wanders.",
 
   "boss.unbound_world.ender_dragon.location": "Circles the central obsidian pillars of the End dimension.",
-  "boss.unbound_world.shulker.location": "Hides within End City towers, camouflaged against the purpur blocks.",
-  "boss.unbound_world.sheep.location": "Grazes peacefully in grassy biomes across the Overworld.",
-  "boss.unbound_world.endermite.location": "Rarely spawns when a player uses an Ender Pearl.",
-
-  "boss.unbound_world.wither_skeleton.location": "Stalks the dark fortress halls of the Nether.",
-  "boss.unbound_world.spider.location": "Climbs walls and lurks in caves during the night.",
-  "boss.unbound_world.husk.location": "Wanders desert biomes under the scorching sun, immune to burning.",
-  "boss.unbound_world.rabbit.location": "Hops through plains, deserts, and snowy tundras.",
-  "boss.unbound_world.vindicator.location": "Guards Woodland Mansions and Pillager Outposts with an axe."
+  "boss.unbound_world.shulker.location": "Hides within End City towers, camouflaged against the purpur blocks."
 }

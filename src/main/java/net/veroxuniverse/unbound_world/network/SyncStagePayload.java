@@ -1,6 +1,7 @@
 package net.veroxuniverse.unbound_world.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -27,6 +28,11 @@ public record SyncStagePayload(int unlockedOrder) implements CustomPacketPayload
     public static void handle(SyncStagePayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             StageManager.setUnlockedOrder(payload.unlockedOrder());
+
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.levelRenderer != null) {
+                mc.levelRenderer.allChanged();
+            }
         });
     }
 }

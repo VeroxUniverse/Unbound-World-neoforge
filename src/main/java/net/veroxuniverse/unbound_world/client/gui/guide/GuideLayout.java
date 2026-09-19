@@ -38,5 +38,5 @@ public final class GuideLayout {
     public static final int SEALED_COLOR = 0xAA3333;
     public static final int STAGE_ACTIVE_COLOR = 0x3F9E4D;
 
-    public static final int LOOT_SAMPLE_COUNT = 200;
+    public static final int LOOT_SAMPLE_COUNT = 2000;
 }

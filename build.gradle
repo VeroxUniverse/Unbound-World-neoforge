@@ -122,7 +122,14 @@ dependencies {
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
 
-    implementation "curse.maven:curios-309927:6529130"
+    compileOnly "curse.maven:curios-309927:6529130"
+    runtimeOnly "curse.maven:curios-309927:6529130"
+
+    runtimeOnly "curse.maven:attributefix-280510:7115922"
+    runtimeOnly "curse.maven:prickle-1023259:6961457"
+    runtimeOnly "curse.maven:bookshelf-228525:7606240"
+
+    runtimeOnly "curse.maven:just-enough-resources-jer-240630:6506298"
 
     compileOnly "curse.maven:jade-324717:5884231"
     runtimeOnly "curse.maven:jade-324717:5884231"

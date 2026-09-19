@@ -59,7 +59,6 @@ public class WorldStageSavedData extends SavedData {
 
     public void setUnlockedOrder(ServerLevel level, int order) {
         this.currentUnlockedOrder = order;
-        StageManager.setUnlockedOrder(order);
         this.setDirty();
 
         PacketDistributor.sendToAllPlayers(new SyncStagePayload(order));

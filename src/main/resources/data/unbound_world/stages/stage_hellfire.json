@@ -1,0 +1,192 @@
+{
+  "order": 3,
+  "stage_translation_key": "stage.unbound_world.hellfire",
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.5,
+    "damage_multiplier": 1.35,
+    "knockback_resistance_multiplier": 1.05,
+    "armor_multiplier": 1.15
+  },
+  "mob_equipment": [
+    {
+      "entity_ids": [
+        "minecraft:piglin",
+        "minecraft:piglin_brute",
+        "minecraft:zombified_piglin"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:golden_sword",
+          "enchantments": [
+            {
+              "id": "minecraft:sharpness",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        },
+        {
+          "slot": "chest",
+          "item": "minecraft:golden_chestplate",
+          "enchantments": [],
+          "drop_chance": 0.0
+        }
+      ]
+    },
+    {
+      "entity_ids": [
+        "minecraft:wither_skeleton"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:iron_sword",
+          "enchantments": [
+            {
+              "id": "minecraft:sharpness",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        }
+      ]
+    }
+  ],
+  "main_boss": {
+    "entity_id": "minecraft:wither",
+    "display_item": "minecraft:nether_star",
+    "location_translation_key": "boss.unbound_world.wither.location",
+    "guaranteed_drops": [
+      "minecraft:nether_star"
+    ],
+    "player_scaling": {
+      "radius": 48.0,
+      "health_per_extra_player": 0.5,
+      "damage_per_extra_player": 0.2,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "minecraft:netherite_scrap",
+          "count_min": 2,
+          "count_max": 4,
+          "chance": 1.0
+        },
+        {
+          "item": "minecraft:ancient_debris",
+          "count_min": 1,
+          "count_max": 2,
+          "chance": 0.75
+        },
+        {
+          "item": "minecraft:diamond",
+          "count_min": 1,
+          "count_max": 3,
+          "chance": 0.5
+        }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:blaze",
+      "display_item": "minecraft:blaze_rod",
+      "location_translation_key": "boss.unbound_world.blaze.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:ghast",
+      "display_item": "minecraft:ghast_tear",
+      "location_translation_key": "boss.unbound_world.ghast.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:magma_cube",
+      "display_item": "minecraft:magma_cream",
+      "location_translation_key": "boss.unbound_world.magma_cube.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:wither_skeleton",
+      "display_item": "minecraft:wither_skeleton_skull",
+      "location_translation_key": "boss.unbound_world.wither_skeleton.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:piglin_brute",
+      "display_item": "minecraft:golden_axe",
+      "location_translation_key": "boss.unbound_world.piglin_brute.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:hoglin",
+      "display_item": "minecraft:leather",
+      "location_translation_key": "boss.unbound_world.hoglin.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:zoglin",
+      "display_item": "minecraft:rotten_flesh",
+      "location_translation_key": "boss.unbound_world.zoglin.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "none",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_sword",
+    "minecraft:netherite_pickaxe",
+    "minecraft:netherite_axe",
+    "minecraft:netherite_shovel",
+    "minecraft:netherite_hoe",
+    "minecraft:netherite_helmet",
+    "minecraft:netherite_chestplate",
+    "minecraft:netherite_leggings",
+    "minecraft:netherite_boots",
+    "minecraft:respawn_anchor"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:brewing_stand"
+  ],
+  "locked_ores": [
+    {
+      "ore_block": "minecraft:ancient_debris",
+      "disguise_block": "minecraft:netherrack"
+    }
+  ],
+  "locked_dimensions": [
+    "minecraft:the_end"
+  ]
+}

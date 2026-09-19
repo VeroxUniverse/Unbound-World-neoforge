@@ -1,10 +1,24 @@
 {
-  "order": 3,
+  "order": 4,
   "stage_translation_key": "stage.unbound_world.void_call",
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.8,
+    "damage_multiplier": 1.6,
+    "knockback_resistance_multiplier": 1.1,
+    "armor_multiplier": 1.25
+  },
   "main_boss": {
     "entity_id": "minecraft:ender_dragon",
     "display_item": "minecraft:dragon_egg",
     "location_translation_key": "boss.unbound_world.ender_dragon.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 64.0,
+      "health_per_extra_player": 0.6,
+      "damage_per_extra_player": 0.25,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
     "drops": {
       "mode": "additional",
       "drops": [
@@ -17,35 +31,18 @@
       "entity_id": "minecraft:shulker",
       "display_item": "minecraft:shulker_shell",
       "location_translation_key": "boss.unbound_world.shulker.location",
+      "guaranteed_drops": [],
       "drops": {
         "mode": "additional",
-        "drops": []
-      }
-    },
-    {
-      "entity_id": "minecraft:sheep",
-      "display_item": "minecraft:white_wool",
-      "location_translation_key": "boss.unbound_world.sheep.location",
-      "drops": {
-        "mode": "none",
-        "drops": []
-      }
-    },
-    {
-      "entity_id": "minecraft:endermite",
-      "display_item": "minecraft:ender_pearl",
-      "location_translation_key": "boss.unbound_world.endermite.location",
-      "drops": {
-        "mode": "replace",
         "drops": []
       }
     }
   ],
   "locked_items": [
     "minecraft:elytra",
-    "minecraft:shulker_shell"
+    "minecraft:shulker_box"
   ],
   "locked_blocks_to_mine": [
-    "minecraft:end_stone"
+    "minecraft:beacon"
   ]
 }

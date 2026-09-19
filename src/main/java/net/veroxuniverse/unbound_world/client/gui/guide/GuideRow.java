@@ -32,6 +32,10 @@ public final class GuideRow {
         return new GuideRow(x, baseY, text, icon, onClick, tooltip, null);
     }
 
+    public static GuideRow label(int x, int baseY, Component text) {
+        return new GuideRow(x, baseY, text, null, null, null, null);
+    }
+
     public static GuideRow iconStrip(int x, int baseY, List<IconEntry> icons) {
         return new GuideRow(x, baseY, null, null, null, null, icons);
     }

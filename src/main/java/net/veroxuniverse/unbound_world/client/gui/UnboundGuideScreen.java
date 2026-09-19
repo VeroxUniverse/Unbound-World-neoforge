@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -207,9 +208,9 @@ public class UnboundGuideScreen extends Screen {
             graphics.drawString(this.font, Component.translatable("gui.unbound_world.guide_title").copy().withStyle(Style.EMPTY.withBold(true)), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
 
             int currentOrder = StageManager.getUnlockedOrder();
-            Component statusValue = currentOrder < 0
-                    ? Component.translatable("gui.unbound_world.sealed_world").withStyle(Style.EMPTY.withColor(GuideLayout.SEALED_COLOR))
-                    : Component.translatable("gui.unbound_world.stage_number", currentOrder).withStyle(Style.EMPTY.withColor(GuideLayout.STAGE_ACTIVE_COLOR));
+            MutableComponent statusValue = currentOrder < 0
+                    ? Component.translatable("gui.unbound_world.sealed_world").copy().withStyle(Style.EMPTY.withColor(GuideLayout.SEALED_COLOR))
+                    : resolveCurrentStageName(currentOrder).copy().withStyle(Style.EMPTY.withColor(GuideLayout.STAGE_ACTIVE_COLOR));
 
             Component prefix = Component.translatable("gui.unbound_world.world_stage_prefix");
             graphics.drawString(this.font, prefix, left + 8, top + 19, GuideLayout.SUBTEXT_COLOR, false);
@@ -224,6 +225,14 @@ public class UnboundGuideScreen extends Screen {
             Component bossName = GuideViewBuilder.getBossDisplayName(this.selectedBoss).copy().withStyle(Style.EMPTY.withBold(true));
             graphics.drawString(this.font, bossName.copy().append(Component.translatable("gui.unbound_world.details_suffix")), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
         }
+    }
+
+    private static Component resolveCurrentStageName(int order) {
+        return StageManager.getAllStages().stream()
+                .filter(s -> s.order() == order)
+                .findFirst()
+                .map(s -> Component.translatable(s.translationKey()))
+                .orElse(Component.translatable("gui.unbound_world.stage_number", order));
     }
 
     private static boolean isHovering(int x, int y, int width, int height, int mouseX, int mouseY) {

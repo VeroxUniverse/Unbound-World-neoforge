@@ -3,7 +3,6 @@ package net.veroxuniverse.unbound_world.client.gui.guide;
 import net.minecraft.client.gui.Font;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.EntityType;
@@ -81,6 +80,11 @@ public final class GuideViewBuilder {
             baseY += GuideLayout.ROW_HEIGHT;
         }
 
+        if (!stage.optionalBosses().isEmpty()) {
+            rows.add(GuideRow.label(rowX, baseY, Component.translatable("gui.unbound_world.boss_progression_label")));
+            baseY += GuideLayout.ROW_HEIGHT;
+        }
+
         for (StageDefinition.BossInfo optBoss : stage.optionalBosses()) {
             Component bossDisplayName = getBossDisplayName(optBoss);
             ItemStack icon = resolveIcon(optBoss.displayItem());
@@ -109,8 +113,18 @@ public final class GuideViewBuilder {
             }
         }
 
+        for (StageDefinition.OreDisguise ore : stage.lockedOres()) {
+            Item item = BuiltInRegistries.ITEM.get(ore.oreBlock());
+            if (item != null && item != Items.AIR) {
+                lockedEntries.add(new GuideRow.IconEntry(new ItemStack(item), List.of(Component.translatable("gui.unbound_world.locked_ore_notice"))));
+            }
+        }
+
         if (!lockedEntries.isEmpty()) {
-            appendIconRows(rows, left, baseY + 4, lockedEntries);
+            baseY += 4;
+            rows.add(GuideRow.label(rowX, baseY, Component.translatable("gui.unbound_world.sealed_items_label")));
+            baseY += GuideLayout.ROW_HEIGHT;
+            appendIconRows(rows, left, baseY, lockedEntries);
         }
 
         return new BuildResult(rows, headerLines);
@@ -134,7 +148,7 @@ public final class GuideViewBuilder {
         List<GuideRow.IconEntry> entries = new ArrayList<>();
 
         if (includeVanilla) {
-            entries.addAll(BossLootPreview.resolve(boss.entityId()));
+            entries.addAll(BossLootPreview.resolve(boss.entityId(), boss.guaranteedDrops()));
         }
 
         if (includeCustom) {

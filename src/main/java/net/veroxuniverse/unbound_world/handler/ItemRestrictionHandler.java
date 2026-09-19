@@ -12,8 +12,8 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -73,10 +73,11 @@ public class ItemRestrictionHandler {
             if (isShiftDown && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 if (slot.index >= 9 && slot.index <= 44) {
                     ItemStack slotStack = slot.getItem();
-                    if (!slotStack.isEmpty() && slotStack.getItem() instanceof ArmorItem armorItem) {
+                    Equipable equipable = slotStack.isEmpty() ? null : Equipable.get(slotStack);
+                    if (equipable != null) {
                         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(slotStack.getItem());
                         if (isItemLocked(itemId)) {
-                            EquipmentSlot eqSlot = armorItem.getEquipmentSlot();
+                            EquipmentSlot eqSlot = equipable.getEquipmentSlot();
                             int targetArmorIndex = switch (eqSlot) {
                                 case HEAD -> 5;
                                 case CHEST -> 6;
@@ -129,7 +130,8 @@ public class ItemRestrictionHandler {
 
             if (slot.index >= 5 && slot.index <= 8) {
                 ItemStack carried = menu.getCarried();
-                if (!carried.isEmpty() && carried.getItem() instanceof ArmorItem) {
+                Equipable carriedEquipable = carried.isEmpty() ? null : Equipable.get(carried);
+                if (carriedEquipable != null) {
                     ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
                     if (isItemLocked(itemId)) {
                         event.setCanceled(true);
@@ -151,7 +153,8 @@ public class ItemRestrictionHandler {
         Slot slot = event.getSlot();
         if (player.containerMenu instanceof InventoryMenu && slot.index >= 5 && slot.index <= 8) {
             ItemStack carried = event.getCarriedItem();
-            if (!carried.isEmpty() && carried.getItem() instanceof ArmorItem) {
+            Equipable carriedEquipable = carried.isEmpty() ? null : Equipable.get(carried);
+            if (carriedEquipable != null) {
                 ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
                 if (isItemLocked(itemId)) {
                     event.setCanceled(true);
@@ -262,6 +265,7 @@ public class ItemRestrictionHandler {
                 : null;
 
         boolean blockLocked = blockId != null && StageManager.isBlockLocked(blockId);
+        boolean oreLocked = !blockLocked && blockId != null && StageManager.isOreLocked(blockId);
         boolean itemLocked = isItemLocked(itemId);
 
         if (blockLocked) {
@@ -287,6 +291,29 @@ public class ItemRestrictionHandler {
                     ))
             );
             tooltip.add(Component.translatable("tooltip.unbound_world.locked_block_status"));
+        } else if (oreLocked) {
+            List<Component> tooltip = event.getToolTip();
+            tooltip.removeIf(component -> {
+                if (component.getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents translatable) {
+                    return translatable.getKey().startsWith("attribute.modifier.")
+                            || translatable.getKey().startsWith("item.modifiers.");
+                }
+                return false;
+            });
+
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltip.unbound_world.locked_ore_title"));
+            StageManager.getRequiredStageForOre(blockId).ifPresentOrElse(
+                    stage -> tooltip.add(Component.translatable(
+                            "tooltip.unbound_world.locked_ore_stage",
+                            Component.translatable(stage.translationKey())
+                    )),
+                    () -> tooltip.add(Component.translatable(
+                            "tooltip.unbound_world.locked_ore_stage",
+                            Component.literal("Unknown Stage")
+                    ))
+            );
+            tooltip.add(Component.translatable("tooltip.unbound_world.locked_ore_status"));
         } else if (itemLocked) {
             List<Component> tooltip = event.getToolTip();
             tooltip.removeIf(component -> {

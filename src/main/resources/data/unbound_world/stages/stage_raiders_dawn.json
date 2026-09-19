@@ -1,0 +1,160 @@
+{
+  "order": 0,
+  "stage_translation_key": "stage.unbound_world.raiders_dawn",
+  "mob_attribute_scaling": {
+    "health_multiplier": 0.0,
+    "damage_multiplier": 0.0,
+    "knockback_resistance_multiplier": 0.0,
+    "armor_multiplier": 0.0
+  },
+  "main_boss": {
+    "entity_id": "minecraft:evoker",
+    "display_item": "minecraft:totem_of_undying",
+    "location_translation_key": "boss.unbound_world.evoker.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 24.0,
+      "health_per_extra_player": 0.3,
+      "damage_per_extra_player": 0.15,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "minecraft:totem_of_undying",
+          "count_min": 1,
+          "count_max": 1,
+          "chance": 1.0
+        }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:pillager",
+      "display_item": "minecraft:crossbow",
+      "location_translation_key": "boss.unbound_world.pillager.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:vindicator",
+      "display_item": "minecraft:iron_axe",
+      "location_translation_key": "boss.unbound_world.vindicator.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:ravager",
+      "display_item": "minecraft:saddle",
+      "location_translation_key": "boss.unbound_world.ravager.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:vex",
+      "display_item": "minecraft:iron_sword",
+      "location_translation_key": "boss.unbound_world.vex.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    },
+    {
+      "entity_id": "minecraft:illusioner",
+      "display_item": "minecraft:bow",
+      "location_translation_key": "boss.unbound_world.illusioner.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:totem_of_undying",
+    "minecraft:gold_ingot",
+    "minecraft:raw_gold",
+    "minecraft:golden_sword",
+    "minecraft:golden_pickaxe",
+    "minecraft:golden_axe",
+    "minecraft:golden_shovel",
+    "minecraft:golden_hoe",
+    "minecraft:golden_helmet",
+    "minecraft:golden_chestplate",
+    "minecraft:golden_leggings",
+    "minecraft:golden_boots",
+    "minecraft:copper_ingot",
+    "minecraft:raw_copper",
+    "minecraft:spyglass",
+    "minecraft:lightning_rod",
+    "minecraft:redstone",
+    "minecraft:emerald"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:blast_furnace",
+    "minecraft:piston",
+    "minecraft:sticky_piston",
+    "minecraft:dropper",
+    "minecraft:dispenser",
+    "minecraft:observer",
+    "minecraft:redstone_block",
+    "minecraft:repeater",
+    "minecraft:comparator",
+    "minecraft:daylight_detector",
+    "minecraft:hopper",
+    "minecraft:crafter",
+    "minecraft:redstone_lamp",
+    "minecraft:trapped_chest"
+  ],
+  "locked_ores": [
+    {
+      "ore_block": "minecraft:gold_ore",
+      "disguise_block": "minecraft:stone"
+    },
+    {
+      "ore_block": "minecraft:deepslate_gold_ore",
+      "disguise_block": "minecraft:deepslate"
+    },
+    {
+      "ore_block": "minecraft:nether_gold_ore",
+      "disguise_block": "minecraft:netherrack"
+    },
+    {
+      "ore_block": "minecraft:copper_ore",
+      "disguise_block": "minecraft:stone"
+    },
+    {
+      "ore_block": "minecraft:deepslate_copper_ore",
+      "disguise_block": "minecraft:deepslate"
+    },
+    {
+      "ore_block": "minecraft:redstone_ore",
+      "disguise_block": "minecraft:stone"
+    },
+    {
+      "ore_block": "minecraft:deepslate_redstone_ore",
+      "disguise_block": "minecraft:deepslate"
+    },
+    {
+      "ore_block": "minecraft:emerald_ore",
+      "disguise_block": "minecraft:stone"
+    },
+    {
+      "ore_block": "minecraft:deepslate_emerald_ore",
+      "disguise_block": "minecraft:deepslate"
+    }
+  ]
+}
