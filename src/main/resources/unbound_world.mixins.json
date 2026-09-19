@@ -4,6 +4,7 @@
   "package": "net.veroxuniverse.unbound_world.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "OreExperienceDisguiseMixin"
   ],
   "client": [
     "client.OreRenderDisguiseMixin",

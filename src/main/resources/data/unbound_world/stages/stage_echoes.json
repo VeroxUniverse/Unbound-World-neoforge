@@ -54,6 +54,7 @@
     "minecraft:nautilus_shell",
     "minecraft:diamond",
     "minecraft:diamond_sword",
+    "minecraft:diamond_spear",
     "minecraft:diamond_pickaxe",
     "minecraft:diamond_axe",
     "minecraft:diamond_shovel",
@@ -62,6 +63,8 @@
     "minecraft:diamond_chestplate",
     "minecraft:diamond_leggings",
     "minecraft:diamond_boots",
+    "minecraft:diamond_nautilus_armor",
+    "minecraft:diamond_horse_armor",
     "minecraft:lapis_lazuli"
   ],
   "locked_blocks_to_mine": [

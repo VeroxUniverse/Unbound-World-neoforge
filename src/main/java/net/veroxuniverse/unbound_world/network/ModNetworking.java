@@ -1,5 +1,6 @@
 package net.veroxuniverse.unbound_world.network;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -19,9 +20,10 @@ public class ModNetworking {
         registrar.playToClient(
                 SyncStagePayload.TYPE,
                 SyncStagePayload.STREAM_CODEC,
-                (payload, context) -> context.enqueueWork(() ->
-                        StageManager.setClientUnlockedOrder(payload.unlockedOrder())
-                )
+                (payload, context) -> context.enqueueWork(() -> {
+                    StageManager.setClientUnlockedOrder(payload.unlockedOrder());
+                    Minecraft.getInstance().levelRenderer.allChanged();
+                })
         );
     }
 

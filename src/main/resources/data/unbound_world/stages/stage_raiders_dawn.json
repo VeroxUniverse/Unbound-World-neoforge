@@ -88,6 +88,7 @@
     "minecraft:gold_ingot",
     "minecraft:raw_gold",
     "minecraft:golden_sword",
+    "minecraft:golden_spear",
     "minecraft:golden_pickaxe",
     "minecraft:golden_axe",
     "minecraft:golden_shovel",
@@ -96,8 +97,9 @@
     "minecraft:golden_chestplate",
     "minecraft:golden_leggings",
     "minecraft:golden_boots",
-    "minecraft:copper_ingot",
-    "minecraft:raw_copper",
+    "minecraft:golden_nautilus_armor",
+    "minecraft:golden_horse_armor",
+    "minecraft:golden_dandelion",
     "minecraft:spyglass",
     "minecraft:lightning_rod",
     "minecraft:redstone",
@@ -131,14 +133,6 @@
     {
       "ore_block": "minecraft:nether_gold_ore",
       "disguise_block": "minecraft:netherrack"
-    },
-    {
-      "ore_block": "minecraft:copper_ore",
-      "disguise_block": "minecraft:stone"
-    },
-    {
-      "ore_block": "minecraft:deepslate_copper_ore",
-      "disguise_block": "minecraft:deepslate"
     },
     {
       "ore_block": "minecraft:redstone_ore",

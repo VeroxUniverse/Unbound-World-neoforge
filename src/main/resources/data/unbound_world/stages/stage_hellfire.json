@@ -167,6 +167,7 @@
     "minecraft:netherite_scrap",
     "minecraft:netherite_ingot",
     "minecraft:netherite_sword",
+    "minecraft:netherite_spear",
     "minecraft:netherite_pickaxe",
     "minecraft:netherite_axe",
     "minecraft:netherite_shovel",
@@ -175,6 +176,8 @@
     "minecraft:netherite_chestplate",
     "minecraft:netherite_leggings",
     "minecraft:netherite_boots",
+    "minecraft:netherite_nautilus_armor",
+    "minecraft:netherite_horse_armor",
     "minecraft:respawn_anchor"
   ],
   "locked_blocks_to_mine": [

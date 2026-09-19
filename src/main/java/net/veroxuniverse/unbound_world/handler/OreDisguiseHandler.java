@@ -58,6 +58,23 @@ public class OreDisguiseHandler {
     }
 
     @SubscribeEvent
+    public static void onHarvestCheck(PlayerEvent.HarvestCheck event) {
+        BlockState realState = event.getTargetBlock();
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(realState.getBlock());
+
+        if (StageManager.isOreLocked(blockId)) {
+            StageManager.getDisguiseBlock(blockId).ifPresent(disguiseId -> {
+                Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId).map(Holder::value).orElse(null);
+                if (disguiseBlock != null) {
+                    BlockState disguiseState = disguiseBlock.defaultBlockState();
+                    boolean canHarvestDisguise = event.getEntity().hasCorrectToolForDrops(disguiseState);
+                    event.setCanHarvest(canHarvestDisguise);
+                }
+            });
+        }
+    }
+
+    @SubscribeEvent
     public static void onBlockDrops(BlockDropsEvent event) {
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
 
