@@ -4,7 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
@@ -28,7 +28,7 @@ public class MobEquipmentHandler {
         if (!(event.getEntity() instanceof Monster monster)) return;
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
 
-        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(monster.getType());
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(monster.getType());
 
         StageManager.getCurrentEquipmentOverride(entityId).ifPresent(override -> {
             for (StageDefinition.EquipmentEntry entry : override.equipment()) {
@@ -44,7 +44,7 @@ public class MobEquipmentHandler {
             return;
         }
 
-        Item item = BuiltInRegistries.ITEM.get(entry.item());
+        Item item = BuiltInRegistries.ITEM.get(entry.item()).map(Holder::value).orElse(null);
         if (item == null) {
             UnboundWorld.LOGGER.warn("MobEquipmentHandler: unknown item {}", entry.item());
             return;

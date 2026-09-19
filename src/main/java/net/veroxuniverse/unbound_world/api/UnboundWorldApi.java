@@ -1,6 +1,6 @@
 package net.veroxuniverse.unbound_world.api;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.veroxuniverse.unbound_world.stage.StageDefinition;
 import net.veroxuniverse.unbound_world.stage.StageManager;
 
@@ -50,19 +50,19 @@ public final class UnboundWorldApi {
         return getStageByOrder(getUnlockedOrder());
     }
 
-    public static boolean isItemLocked(ResourceLocation itemId) {
+    public static boolean isItemLocked(Identifier itemId) {
         return StageManager.isItemLocked(itemId);
     }
 
-    public static boolean isBlockLocked(ResourceLocation blockId) {
+    public static boolean isBlockLocked(Identifier blockId) {
         return StageManager.isBlockLocked(blockId);
     }
 
-    public static boolean isOreLocked(ResourceLocation oreBlockId) {
+    public static boolean isOreLocked(Identifier oreBlockId) {
         return StageManager.isOreLocked(oreBlockId);
     }
 
-    public static boolean isDimensionLocked(ResourceLocation dimensionId) {
+    public static boolean isDimensionLocked(Identifier dimensionId) {
         return StageManager.isDimensionLocked(dimensionId);
     }
 
@@ -70,14 +70,14 @@ public final class UnboundWorldApi {
      * @return true if the given boss entity (main or optional, from any loaded stage) cannot yet
      * be damaged because its required prior stage has not been cleared.
      */
-    public static boolean isBossLocked(ResourceLocation bossEntityId) {
+    public static boolean isBossLocked(Identifier bossEntityId) {
         return StageManager.isBossLocked(bossEntityId);
     }
 
     /**
      * @return the stage that owns (registers) the given boss entity, if it is a tracked boss at all.
      */
-    public static Optional<StageDefinition> getOwningStageForBoss(ResourceLocation bossEntityId) {
+    public static Optional<StageDefinition> getOwningStageForBoss(Identifier bossEntityId) {
         return StageManager.getOwningStageForBoss(bossEntityId);
     }
 
@@ -85,14 +85,14 @@ public final class UnboundWorldApi {
      * @return the boss configuration (drops, player scaling, etc.) for the given entity, if it is
      * registered as a main or optional boss in any loaded stage.
      */
-    public static Optional<StageDefinition.BossInfo> getBossInfo(ResourceLocation bossEntityId) {
+    public static Optional<StageDefinition.BossInfo> getBossInfo(Identifier bossEntityId) {
         return StageManager.getBossInfo(bossEntityId);
     }
 
     /**
      * @return true if the given entity id is registered as a boss (main or optional) in any loaded stage.
      */
-    public static boolean isRegisteredBoss(ResourceLocation entityId) {
+    public static boolean isRegisteredBoss(Identifier entityId) {
         return StageManager.getBossInfo(entityId).isPresent();
     }
 }

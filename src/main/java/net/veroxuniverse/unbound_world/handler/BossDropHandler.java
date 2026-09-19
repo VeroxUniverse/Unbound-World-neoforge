@@ -1,7 +1,8 @@
 package net.veroxuniverse.unbound_world.handler;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -20,9 +21,9 @@ public class BossDropHandler {
     @SubscribeEvent
     public static void onLivingDrops(LivingDropsEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
 
-        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
 
         StageManager.getBossInfo(entityId).ifPresent(bossInfo -> {
             StageDefinition.DropTable dropTable = bossInfo.drops();
@@ -38,7 +39,7 @@ public class BossDropHandler {
             RandomSource random = entity.getRandom();
             for (StageDefinition.DropEntry entry : dropTable.drops()) {
                 if (random.nextFloat() <= entry.chance()) {
-                    Item item = BuiltInRegistries.ITEM.get(entry.item());
+                    Item item = BuiltInRegistries.ITEM.get(entry.item()).map(Holder::value).orElse(null);
                     if (item != null) {
                         int min = entry.countMin();
                         int max = Math.max(min, entry.countMax());

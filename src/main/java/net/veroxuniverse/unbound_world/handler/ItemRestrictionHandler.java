@@ -2,21 +2,20 @@ package net.veroxuniverse.unbound_world.handler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
@@ -32,7 +31,6 @@ import java.util.List;
 
 public class ItemRestrictionHandler {
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onScreenMouseClicked(ScreenEvent.MouseButtonPressed.Pre event) {
         if (!(event.getScreen() instanceof AbstractContainerScreen<?> containerScreen)) return;
@@ -41,29 +39,28 @@ public class ItemRestrictionHandler {
         Player player = mc.player;
         if (player == null || player.isCreative()) return;
 
-        Slot slot = containerScreen.getSlotUnderMouse();
+        Slot slot = containerScreen.getHoveredSlot();
         if (slot == null) return;
 
         if (slot instanceof ResultSlot || slot.container instanceof ResultContainer) {
             ItemStack stack = slot.getItem();
             if (!stack.isEmpty()) {
-                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-                ResourceLocation blockId = stack.getItem() instanceof BlockItem bi
+                Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+                Identifier blockId = stack.getItem() instanceof BlockItem bi
                         ? BuiltInRegistries.BLOCK.getKey(bi.getBlock())
                         : null;
 
                 if (isItemLocked(itemId) || (blockId != null && StageManager.isBlockLocked(blockId))) {
                     event.setCanceled(true);
-                    player.displayClientMessage(
-                            Component.translatable("message.unbound_world.item_locked"),
-                            true
+                    player.sendOverlayMessage(
+                            Component.translatable("message.unbound_world.item_locked")
                     );
                     return;
                 }
             }
         }
 
-        long window = mc.getWindow().getWindow();
+        long window = mc.getWindow().handle();
         boolean isShiftDown = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS
                 || GLFW.glfwGetKey(window, GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
 
@@ -73,11 +70,11 @@ public class ItemRestrictionHandler {
             if (isShiftDown && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 if (slot.index >= 9 && slot.index <= 44) {
                     ItemStack slotStack = slot.getItem();
-                    Equipable equipable = slotStack.isEmpty() ? null : Equipable.get(slotStack);
-                    if (equipable != null) {
-                        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(slotStack.getItem());
+                    Equippable equippable = slotStack.isEmpty() ? null : slotStack.get(DataComponents.EQUIPPABLE);
+                    if (equippable != null) {
+                        Identifier itemId = BuiltInRegistries.ITEM.getKey(slotStack.getItem());
                         if (isItemLocked(itemId)) {
-                            EquipmentSlot eqSlot = equipable.getEquipmentSlot();
+                            EquipmentSlot eqSlot = equippable.slot();
                             int targetArmorIndex = switch (eqSlot) {
                                 case HEAD -> 5;
                                 case CHEST -> 6;
@@ -101,24 +98,23 @@ public class ItemRestrictionHandler {
                                 }
 
                                 if (emptyTargetIndex != -1 && mc.gameMode != null) {
-                                    mc.gameMode.handleInventoryMouseClick(
+                                    mc.gameMode.handleContainerInput(
                                             menu.containerId,
                                             slot.index,
                                             0,
-                                            ClickType.PICKUP,
+                                            ContainerInput.PICKUP,
                                             player
                                     );
-                                    mc.gameMode.handleInventoryMouseClick(
+                                    mc.gameMode.handleContainerInput(
                                             menu.containerId,
                                             emptyTargetIndex,
                                             0,
-                                            ClickType.PICKUP,
+                                            ContainerInput.PICKUP,
                                             player
                                     );
                                 } else {
-                                    player.displayClientMessage(
-                                            Component.translatable("message.unbound_world.item_locked"),
-                                            true
+                                    player.sendOverlayMessage(
+                                            Component.translatable("message.unbound_world.item_locked")
                                     );
                                 }
                                 return;
@@ -130,14 +126,13 @@ public class ItemRestrictionHandler {
 
             if (slot.index >= 5 && slot.index <= 8) {
                 ItemStack carried = menu.getCarried();
-                Equipable carriedEquipable = carried.isEmpty() ? null : Equipable.get(carried);
-                if (carriedEquipable != null) {
-                    ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
+                Equippable carriedEquippable = carried.isEmpty() ? null : carried.get(DataComponents.EQUIPPABLE);
+                if (carriedEquippable != null) {
+                    Identifier itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
                     if (isItemLocked(itemId)) {
                         event.setCanceled(true);
-                        player.displayClientMessage(
-                                Component.translatable("message.unbound_world.item_locked"),
-                                true
+                        player.sendOverlayMessage(
+                                Component.translatable("message.unbound_world.item_locked")
                         );
                     }
                 }
@@ -153,15 +148,14 @@ public class ItemRestrictionHandler {
         Slot slot = event.getSlot();
         if (player.containerMenu instanceof InventoryMenu && slot.index >= 5 && slot.index <= 8) {
             ItemStack carried = event.getCarriedItem();
-            Equipable carriedEquipable = carried.isEmpty() ? null : Equipable.get(carried);
-            if (carriedEquipable != null) {
-                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
+            Equippable carriedEquippable = carried.isEmpty() ? null : carried.get(DataComponents.EQUIPPABLE);
+            if (carriedEquippable != null) {
+                Identifier itemId = BuiltInRegistries.ITEM.getKey(carried.getItem());
                 if (isItemLocked(itemId)) {
                     event.setCanceled(true);
-                    if (player.level().isClientSide) {
-                        player.displayClientMessage(
-                                Component.translatable("message.unbound_world.item_locked"),
-                                true
+                    if (player.level().isClientSide()) {
+                        player.sendOverlayMessage(
+                                Component.translatable("message.unbound_world.item_locked")
                         );
                     }
                 }
@@ -176,13 +170,12 @@ public class ItemRestrictionHandler {
 
         ItemStack stack = event.getItemStack();
         if (!stack.isEmpty()) {
-            ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+            Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
             if (isItemLocked(itemId)) {
                 event.setCanceled(true);
-                if (player.level().isClientSide) {
-                    player.displayClientMessage(
-                            Component.translatable("message.unbound_world.item_locked"),
-                            true
+                if (player.level().isClientSide()) {
+                    player.sendOverlayMessage(
+                            Component.translatable("message.unbound_world.item_locked")
                     );
                 }
             }
@@ -196,11 +189,10 @@ public class ItemRestrictionHandler {
 
         ItemStack stack = event.getItemStack();
         if (!stack.isEmpty()) {
-            ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+            Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
             if (isItemLocked(itemId)) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.item_locked"),
-                        true
+                player.sendOverlayMessage(
+                        Component.translatable("message.unbound_world.item_locked")
                 );
             }
         }
@@ -212,14 +204,13 @@ public class ItemRestrictionHandler {
         if (player.isCreative()) return;
 
         ItemStack stack = event.getItemStack();
-        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         if (isItemLocked(itemId)) {
             event.setCanceled(true);
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.item_locked"),
-                        true
+            if (player.level().isClientSide()) {
+                player.sendOverlayMessage(
+                        Component.translatable("message.unbound_world.item_locked")
                 );
             }
         }
@@ -231,14 +222,13 @@ public class ItemRestrictionHandler {
         if (player.isCreative()) return;
 
         ItemStack stack = player.getMainHandItem();
-        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         if (isItemLocked(itemId)) {
             event.setCanceled(true);
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.item_locked"),
-                        true
+            if (player.level().isClientSide()) {
+                player.sendOverlayMessage(
+                        Component.translatable("message.unbound_world.item_locked")
                 );
             }
         }
@@ -247,7 +237,7 @@ public class ItemRestrictionHandler {
     @SubscribeEvent
     public void onItemAttributeModifier(ItemAttributeModifierEvent event) {
         ItemStack stack = event.getItemStack();
-        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
         if (isItemLocked(itemId)) {
             event.clearModifiers();
@@ -259,8 +249,8 @@ public class ItemRestrictionHandler {
         ItemStack stack = event.getItemStack();
         if (stack.isEmpty()) return;
 
-        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        ResourceLocation blockId = stack.getItem() instanceof BlockItem bi
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        Identifier blockId = stack.getItem() instanceof BlockItem bi
                 ? BuiltInRegistries.BLOCK.getKey(bi.getBlock())
                 : null;
 
@@ -340,7 +330,7 @@ public class ItemRestrictionHandler {
         }
     }
 
-    public static boolean isItemLocked(ResourceLocation itemId) {
+    public static boolean isItemLocked(Identifier itemId) {
         return StageManager.isItemLocked(itemId);
     }
 }

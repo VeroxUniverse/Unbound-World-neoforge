@@ -33,10 +33,10 @@ public final class GuideLayout {
     public static final int BACK_BOX_RIGHT = 247;
     public static final int BACK_BOX_BOTTOM = 41;
 
-    public static final int TITLE_COLOR = 0x404040;
-    public static final int SUBTEXT_COLOR = 0x707070;
-    public static final int SEALED_COLOR = 0xAA3333;
-    public static final int STAGE_ACTIVE_COLOR = 0x3F9E4D;
+    public static final int TITLE_COLOR = 0xFF404040;
+    public static final int SUBTEXT_COLOR = 0xFF707070;
+    public static final int SEALED_COLOR = 0xFFAA3333;
+    public static final int STAGE_ACTIVE_COLOR = 0xFF3F9E4D;
 
     public static final int LOOT_SAMPLE_COUNT = 2000;
 }

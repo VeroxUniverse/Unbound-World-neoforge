@@ -1,6 +1,6 @@
 package net.veroxuniverse.unbound_world.handler;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,10 +14,10 @@ import net.veroxuniverse.unbound_world.util.AttributeScalingUtil;
 @EventBusSubscriber(modid = UnboundWorld.MOD_ID)
 public class MobAttributeScalingHandler {
 
-    private static final ResourceLocation HEALTH_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_health");
-    private static final ResourceLocation DAMAGE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_damage");
-    private static final ResourceLocation KNOCKBACK_RESISTANCE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_knockback_resistance");
-    private static final ResourceLocation ARMOR_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_armor");
+    private static final Identifier HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_health");
+    private static final Identifier DAMAGE_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_damage");
+    private static final Identifier KNOCKBACK_RESISTANCE_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_knockback_resistance");
+    private static final Identifier ARMOR_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "stage_scaling_armor");
 
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {

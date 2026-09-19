@@ -3,7 +3,7 @@ package net.veroxuniverse.unbound_world.compat.jade;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -21,7 +21,7 @@ import snownee.jade.api.config.IPluginConfig;
 @WailaPlugin
 public class UnboundJadePlugin implements IWailaPlugin {
 
-    public static final ResourceLocation LOCKED_BLOCK = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "locked_block");
+    public static final Identifier LOCKED_BLOCK = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "locked_block");
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
@@ -30,12 +30,12 @@ public class UnboundJadePlugin implements IWailaPlugin {
                 Level level = blockAccessor.getLevel();
                 BlockPos pos = blockAccessor.getPosition();
                 BlockState state = level.getBlockState(pos);
-                ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+                Identifier blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
                 if (StageManager.isOreLocked(blockId)) {
                     var disguiseId = StageManager.getDisguiseBlock(blockId).orElse(null);
                     if (disguiseId != null) {
-                        Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId);
+                        Block disguiseBlock = BuiltInRegistries.BLOCK.getValue(disguiseId);
                         if (disguiseBlock != null && disguiseBlock != Blocks.AIR) {
                             return registration.blockAccessor()
                                     .from(blockAccessor)
@@ -59,7 +59,7 @@ public class UnboundJadePlugin implements IWailaPlugin {
             Level level = accessor.getLevel();
             BlockPos pos = accessor.getPosition();
             BlockState state = level.getBlockState(pos);
-            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+            Identifier blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
             if (StageManager.isOreLocked(blockId)) {
                 return;
@@ -84,7 +84,7 @@ public class UnboundJadePlugin implements IWailaPlugin {
         }
 
         @Override
-        public ResourceLocation getUid() {
+        public Identifier getUid() {
             return LOCKED_BLOCK;
         }
 

@@ -1,12 +1,14 @@
 package net.veroxuniverse.unbound_world.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.veroxuniverse.unbound_world.UnboundWorld;
 import net.veroxuniverse.unbound_world.client.gui.guide.GuideLayout;
@@ -20,9 +22,9 @@ import java.util.List;
 
 public class UnboundGuideScreen extends Screen {
 
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "textures/gui/unbound_guide.png");
-    private static final ResourceLocation GUI_TEXTURE_MENU = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "textures/gui/unbound_guide_menu.png");
-    private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.withDefaultNamespace("container/creative_inventory/scroller");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "textures/gui/unbound_guide.png");
+    private static final Identifier GUI_TEXTURE_MENU = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "textures/gui/unbound_guide_menu.png");
+    private static final Identifier SCROLLER_SPRITE = Identifier.withDefaultNamespace("container/creative_inventory/scroller");
 
     private enum ViewMode { STAGE_LIST, STAGE_DETAIL, BOSS_DROPS }
 
@@ -118,16 +120,16 @@ public class UnboundGuideScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
         int left = (this.width - GuideLayout.GUI_WIDTH) / 2;
         int top = (this.height - GuideLayout.GUI_HEIGHT) / 2;
 
         boolean isMainMenu = this.currentMode == ViewMode.STAGE_LIST;
-        ResourceLocation activeTexture = isMainMenu ? GUI_TEXTURE_MENU : GUI_TEXTURE;
+        Identifier activeTexture = isMainMenu ? GUI_TEXTURE_MENU : GUI_TEXTURE;
 
-        graphics.blit(activeTexture, left, top, 0, 0, GuideLayout.GUI_WIDTH, GuideLayout.GUI_HEIGHT);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, activeTexture, left, top, 0, 0, GuideLayout.GUI_WIDTH, GuideLayout.GUI_HEIGHT, 256, 256);
 
         this.renderTitleArea(graphics, left, top);
 
@@ -139,7 +141,7 @@ public class UnboundGuideScreen extends Screen {
             int centerX = left + GuideLayout.BACK_BOX_LEFT + boxWidth / 2;
             int centerY = top + GuideLayout.BACK_BOX_TOP + boxHeight / 2 - 3;
 
-            graphics.drawCenteredString(this.font, Component.literal("«"), centerX, centerY, 0xFFFFFF);
+            graphics.centeredText(this.font, Component.literal("«"), centerX, centerY, 0xFFFFFFFF);
 
             if (isHovering(left + GuideLayout.BACK_BOX_LEFT, top + GuideLayout.BACK_BOX_TOP, boxWidth, boxHeight, mouseX, mouseY)) {
                 hoveredTooltip = List.of(Component.translatable("gui.unbound_world.click_to_go_back"));
@@ -148,7 +150,7 @@ public class UnboundGuideScreen extends Screen {
 
         int headerY = top + GuideLayout.HEADER_AREA_TOP;
         for (FormattedCharSequence line : this.headerLines) {
-            graphics.drawString(this.font, line, left + GuideLayout.CONTENT_LEFT_OFFSET, headerY, GuideLayout.SUBTEXT_COLOR, false);
+            graphics.text(this.font, line, left + GuideLayout.CONTENT_LEFT_OFFSET, headerY, GuideLayout.SUBTEXT_COLOR, false);
             headerY += GuideLayout.HEADER_LINE_HEIGHT;
         }
 
@@ -158,6 +160,7 @@ public class UnboundGuideScreen extends Screen {
         this.layoutRows(top);
 
         graphics.enableScissor(left + GuideLayout.CONTENT_LEFT_OFFSET, contentTop, left + GuideLayout.CONTENT_RIGHT_OFFSET, contentBottom);
+
         for (GuideRow row : this.contentRows) {
             if (!row.visible()) continue;
 
@@ -167,9 +170,9 @@ public class UnboundGuideScreen extends Screen {
                     int iconX = row.x() + i * 18;
                     int iconY = row.currentY();
 
-                    graphics.blit(GUI_TEXTURE, iconX, iconY, 0, 176, 18, 18);
-                    graphics.renderFakeItem(entry.stack(), iconX + 1, iconY + 1);
-                    graphics.renderItemDecorations(this.font, entry.stack(), iconX + 1, iconY + 1);
+                    graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE, iconX, iconY, 0, 176, 18, 18, 256, 256);
+                    graphics.fakeItem(entry.stack(), iconX + 1, iconY + 1);
+                    graphics.itemDecorations(this.font, entry.stack(), iconX + 1, iconY + 1);
 
                     if (mouseX >= iconX + 1 && mouseX < iconX + 17 && mouseY >= iconY + 1 && mouseY < iconY + 17) {
                         List<Component> tooltip = new ArrayList<>(Screen.getTooltipFromItem(Minecraft.getInstance(), entry.stack()));
@@ -181,13 +184,15 @@ public class UnboundGuideScreen extends Screen {
                 boolean hovered = row.onClick() != null && isHovering(row.x(), row.currentY(), row.width(this.font), GuideLayout.ROW_HEIGHT, mouseX, mouseY);
 
                 if (row.icon() != null) {
-                    graphics.renderFakeItem(row.icon(), row.x(), row.currentY() + 1);
+                    graphics.fakeItem(row.icon(), row.x(), row.currentY() + 1);
                 }
 
                 int textX = row.icon() != null ? row.x() + 18 : row.x();
                 int textY = row.currentY() + (GuideLayout.ROW_HEIGHT - 8) / 2;
                 Component displayText = hovered ? row.text().copy().withStyle(Style.EMPTY.withUnderlined(true)) : row.text();
-                graphics.drawString(this.font, displayText, textX, textY, GuideLayout.TITLE_COLOR, false);
+
+                // Text explizit mit dem Font-Renderer über den Graphics-Extractor ausgeben
+                graphics.text(this.font, displayText, textX, textY, GuideLayout.TITLE_COLOR, false);
 
                 if (hovered && row.tooltip() != null) {
                     hoveredTooltip = row.tooltip();
@@ -199,13 +204,13 @@ public class UnboundGuideScreen extends Screen {
         this.renderScrollbarThumb(graphics, left, top);
 
         if (hoveredTooltip != null) {
-            graphics.renderComponentTooltip(this.font, hoveredTooltip, mouseX, mouseY);
+            graphics.setComponentTooltipForNextFrame(this.font, hoveredTooltip, mouseX, mouseY);
         }
     }
 
-    private void renderTitleArea(GuiGraphics graphics, int left, int top) {
+    private void renderTitleArea(GuiGraphicsExtractor graphics, int left, int top) {
         if (this.currentMode == ViewMode.STAGE_LIST) {
-            graphics.drawString(this.font, Component.translatable("gui.unbound_world.guide_title").copy().withStyle(Style.EMPTY.withBold(true)), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
+            graphics.text(this.font, Component.translatable("gui.unbound_world.guide_title").copy().withStyle(Style.EMPTY.withBold(true)), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
 
             int currentOrder = StageManager.getUnlockedOrder();
             MutableComponent statusValue = currentOrder < 0
@@ -213,17 +218,17 @@ public class UnboundGuideScreen extends Screen {
                     : resolveCurrentStageName(currentOrder).copy().withStyle(Style.EMPTY.withColor(GuideLayout.STAGE_ACTIVE_COLOR));
 
             Component prefix = Component.translatable("gui.unbound_world.world_stage_prefix");
-            graphics.drawString(this.font, prefix, left + 8, top + 19, GuideLayout.SUBTEXT_COLOR, false);
-            graphics.drawString(this.font, statusValue, left + 8 + this.font.width(prefix), top + 19, GuideLayout.SUBTEXT_COLOR, false);
+            graphics.text(this.font, prefix, left + 8, top + 19, GuideLayout.SUBTEXT_COLOR, false);
+            graphics.text(this.font, statusValue, left + 8 + this.font.width(prefix), top + 19, GuideLayout.SUBTEXT_COLOR, false);
 
-            graphics.drawString(this.font, Component.translatable("gui.unbound_world.progressions_label"), left + 8, top + GuideLayout.MAIN_HEADER_AREA_TOP, GuideLayout.TITLE_COLOR, false);
+            graphics.text(this.font, Component.translatable("gui.unbound_world.progressions_label"), left + 8, top + GuideLayout.MAIN_HEADER_AREA_TOP, GuideLayout.TITLE_COLOR, false);
 
         } else if (this.currentMode == ViewMode.STAGE_DETAIL && this.selectedStage != null) {
-            graphics.drawString(this.font, Component.translatable(this.selectedStage.translationKey()).copy().withStyle(Style.EMPTY.withBold(true)), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
+            graphics.text(this.font, Component.translatable(this.selectedStage.translationKey()).copy().withStyle(Style.EMPTY.withBold(true)), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
 
         } else if (this.currentMode == ViewMode.BOSS_DROPS && this.selectedBoss != null) {
             Component bossName = GuideViewBuilder.getBossDisplayName(this.selectedBoss).copy().withStyle(Style.EMPTY.withBold(true));
-            graphics.drawString(this.font, bossName.copy().append(Component.translatable("gui.unbound_world.details_suffix")), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
+            graphics.text(this.font, bossName.copy().append(Component.translatable("gui.unbound_world.details_suffix")), left + 8, top + 7, GuideLayout.TITLE_COLOR, false);
         }
     }
 
@@ -239,7 +244,7 @@ public class UnboundGuideScreen extends Screen {
         return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
     }
 
-    private void renderScrollbarThumb(GuiGraphics graphics, int left, int top) {
+    private void renderScrollbarThumb(GuiGraphicsExtractor graphics, int left, int top) {
         if (this.maxScroll <= 0) return;
 
         int trackTop = top + GuideLayout.SCROLLBAR_TRACK_TOP;
@@ -251,7 +256,7 @@ public class UnboundGuideScreen extends Screen {
         int thumbY = trackTop + (int) Math.round((trackHeight - GuideLayout.SCROLLER_HEIGHT) * scrollFraction);
         int thumbX = left + GuideLayout.SCROLLBAR_TRACK_LEFT + (trackWidth - GuideLayout.SCROLLER_WIDTH) / 2;
 
-        graphics.blitSprite(SCROLLER_SPRITE, thumbX, thumbY, GuideLayout.SCROLLER_WIDTH, GuideLayout.SCROLLER_HEIGHT);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, thumbX, thumbY, GuideLayout.SCROLLER_WIDTH, GuideLayout.SCROLLER_HEIGHT);
     }
 
     @Override
@@ -265,8 +270,11 @@ public class UnboundGuideScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0) {
+            double mouseX = event.x();
+            double mouseY = event.y();
+
             int left = (this.width - GuideLayout.GUI_WIDTH) / 2;
             int top = (this.height - GuideLayout.GUI_HEIGHT) / 2;
 
@@ -296,25 +304,25 @@ public class UnboundGuideScreen extends Screen {
                 }
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
         if (this.draggingScrollbar) {
             int top = (this.height - GuideLayout.GUI_HEIGHT) / 2;
             int trackTop = top + GuideLayout.SCROLLBAR_TRACK_TOP;
             int trackBottom = top + GuideLayout.SCROLLBAR_TRACK_BOTTOM;
-            this.updateScrollFromMouse(mouseY, trackTop, trackBottom - trackTop);
+            this.updateScrollFromMouse(event.y(), trackTop, trackBottom - trackTop);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, dragX, dragY);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         this.draggingScrollbar = false;
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
 
     private void updateScrollFromMouse(double mouseY, int trackTop, int trackHeight) {

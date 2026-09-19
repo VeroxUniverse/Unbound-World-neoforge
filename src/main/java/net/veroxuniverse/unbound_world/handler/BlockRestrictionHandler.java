@@ -3,7 +3,7 @@ package net.veroxuniverse.unbound_world.handler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -26,15 +26,12 @@ public class BlockRestrictionHandler {
 
         BlockPos pos = event.getPos();
         BlockState state = event.getLevel().getBlockState(pos);
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
         if (isBlockLocked(blockId)) {
             event.setCanceled(true);
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.block_locked"),
-                        true
-                );
+            if (player.level().isClientSide()) {
+                player.sendSystemMessage(Component.translatable("message.unbound_world.block_locked"));
             }
         }
     }
@@ -45,30 +42,11 @@ public class BlockRestrictionHandler {
         if (player.isCreative()) return;
 
         BlockState state = event.getState();
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
         if (isBlockLocked(blockId)) {
             event.setCanceled(true);
             event.setNewSpeed(0.0f);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onBlockBreak(BlockEvent.BreakEvent event) {
-        Player player = event.getPlayer();
-        if (player.isCreative()) return;
-
-        BlockState state = event.getState();
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
-
-        if (isBlockLocked(blockId)) {
-            event.setCanceled(true);
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.block_locked"),
-                        true
-                );
-            }
         }
     }
 
@@ -79,24 +57,21 @@ public class BlockRestrictionHandler {
 
         BlockPos pos = event.getPos();
         BlockState clickedState = event.getLevel().getBlockState(pos);
-        ResourceLocation clickedBlockId = BuiltInRegistries.BLOCK.getKey(clickedState.getBlock());
+        Identifier clickedBlockId = BuiltInRegistries.BLOCK.getKey(clickedState.getBlock());
 
         if (isBlockLocked(clickedBlockId)) {
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.FAIL);
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.block_locked"),
-                        true
-                );
+            if (player.level().isClientSide()) {
+                player.sendSystemMessage(Component.translatable("message.unbound_world.block_locked"));
             }
             return;
         }
 
         ItemStack heldItem = event.getItemStack();
         if (!heldItem.isEmpty()) {
-            ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(heldItem.getItem());
-            ResourceLocation blockToPlaceId = heldItem.getItem() instanceof BlockItem bi
+            Identifier itemId = BuiltInRegistries.ITEM.getKey(heldItem.getItem());
+            Identifier blockToPlaceId = heldItem.getItem() instanceof BlockItem bi
                     ? BuiltInRegistries.BLOCK.getKey(bi.getBlock())
                     : null;
 
@@ -111,11 +86,8 @@ public class BlockRestrictionHandler {
                     sp.containerMenu.sendAllDataToRemote();
                 }
 
-                if (player.level().isClientSide) {
-                    player.displayClientMessage(
-                            Component.translatable(isBlockedBlock ? "message.unbound_world.block_place_locked" : "message.unbound_world.item_locked"),
-                            true
-                    );
+                if (player.level().isClientSide()) {
+                    player.sendSystemMessage(Component.translatable(isBlockedBlock ? "message.unbound_world.block_place_locked" : "message.unbound_world.item_locked"));
                 }
             }
         }
@@ -127,23 +99,20 @@ public class BlockRestrictionHandler {
         if (player.isCreative()) return;
 
         BlockState placedState = event.getPlacedBlock();
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(placedState.getBlock());
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(placedState.getBlock());
 
         if (isBlockLocked(blockId)) {
             event.setCanceled(true);
             if (player instanceof ServerPlayer sp) {
                 sp.containerMenu.sendAllDataToRemote();
             }
-            if (player.level().isClientSide) {
-                player.displayClientMessage(
-                        Component.translatable("message.unbound_world.block_place_locked"),
-                        true
-                );
+            if (player.level().isClientSide()) {
+                player.sendSystemMessage(Component.translatable("message.unbound_world.block_place_locked"));
             }
         }
     }
 
-    public static boolean isBlockLocked(ResourceLocation blockId) {
+    public static boolean isBlockLocked(Identifier blockId) {
         return StageManager.isBlockLocked(blockId);
     }
 }

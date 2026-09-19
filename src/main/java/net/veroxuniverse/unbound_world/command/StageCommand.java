@@ -8,9 +8,11 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.PermissionLevel;
 import net.veroxuniverse.unbound_world.stage.StageDefinition;
 import net.veroxuniverse.unbound_world.stage.StageManager;
-import net.veroxuniverse.unbound_world.stage.WorldStageSavedData;
+import net.veroxuniverse.unbound_world.stage.WorldStageData;
 import net.veroxuniverse.unbound_world.util.StageNotifier;
 
 import java.util.Optional;
@@ -26,13 +28,13 @@ public class StageCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("unbound")
-                        .requires(source -> source.hasPermission(2))
+                        .requires(source -> source.permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.GAMEMASTERS)))
                         .then(Commands.literal("stage")
                                 // /unbound stage get
                                 .then(Commands.literal("get")
                                         .executes(context -> {
                                             ServerLevel level = context.getSource().getLevel();
-                                            int current = WorldStageSavedData.get(level).getUnlockedOrder();
+                                            int current = WorldStageData.get(level).getUnlockedOrder();
                                             String stageDisplay = getStageDisplayName(current);
 
                                             context.getSource().sendSuccess(() ->
@@ -47,7 +49,7 @@ public class StageCommand {
                                                 .executes(context -> {
                                                     int order = IntegerArgumentType.getInteger(context, "order");
                                                     ServerLevel level = context.getSource().getLevel();
-                                                    WorldStageSavedData data = WorldStageSavedData.get(level);
+                                                    WorldStageData data = WorldStageData.get(level);
 
                                                     data.setUnlockedOrder(level, order);
 
@@ -66,7 +68,7 @@ public class StageCommand {
                                 .then(Commands.literal("reset")
                                         .executes(context -> {
                                             ServerLevel level = context.getSource().getLevel();
-                                            WorldStageSavedData.get(level).setUnlockedOrder(level, -1);
+                                            WorldStageData.get(level).setUnlockedOrder(level, -1);
 
                                             context.getSource().sendSuccess(() ->
                                                     Component.literal("§6[Unbound World]§r World progression reset to §cSealed World§r (-1)."), true);

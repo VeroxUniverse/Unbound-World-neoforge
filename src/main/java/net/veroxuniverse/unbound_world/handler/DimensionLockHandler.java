@@ -1,7 +1,7 @@
 package net.veroxuniverse.unbound_world.handler;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
@@ -18,11 +18,11 @@ public class DimensionLockHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
         Entity entity = event.getEntity();
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
 
         if (entity instanceof Player player && player.isCreative()) return;
 
-        ResourceLocation dimensionId = event.getDimension().location();
+        Identifier dimensionId = event.getDimension().identifier();
 
         if (!StageManager.isDimensionLocked(dimensionId)) return;
 
@@ -31,18 +31,16 @@ public class DimensionLockHandler {
         if (entity instanceof Player player) {
             StageManager.getRequiredStageForDimension(dimensionId).ifPresentOrElse(
                     stage -> sendLockedMessage(player, stage),
-                    () -> player.displayClientMessage(
-                            Component.translatable("message.unbound_world.dimension_sealed_generic"),
-                            true
+                    () -> player.sendOverlayMessage(
+                            Component.translatable("message.unbound_world.dimension_sealed_generic")
                     )
             );
         }
     }
 
     private static void sendLockedMessage(Player player, StageDefinition requiredStage) {
-        player.displayClientMessage(
-                Component.translatable("message.unbound_world.dimension_sealed", Component.translatable(requiredStage.translationKey())),
-                true
+        player.sendOverlayMessage(
+                Component.translatable("message.unbound_world.dimension_sealed", Component.translatable(requiredStage.translationKey()))
         );
     }
 }

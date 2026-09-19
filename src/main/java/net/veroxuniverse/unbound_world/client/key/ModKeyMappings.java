@@ -16,7 +16,7 @@ public class ModKeyMappings {
             "key.unbound_world.open_guide",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_K,
-            "key.categories.unbound_world"
+            KeyMapping.Category.MISC
     );
 
     @SubscribeEvent

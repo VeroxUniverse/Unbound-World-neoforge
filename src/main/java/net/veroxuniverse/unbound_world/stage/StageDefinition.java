@@ -2,7 +2,7 @@ package net.veroxuniverse.unbound_world.stage;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +15,9 @@ public record StageDefinition(
         List<OreDisguise> lockedOres,
         Optional<BossInfo> mainBoss,
         List<BossInfo> optionalBosses,
-        List<ResourceLocation> lockedItems,
-        List<ResourceLocation> lockedBlocks,
-        List<ResourceLocation> lockedDimensions
+        List<Identifier> lockedItems,
+        List<Identifier> lockedBlocks,
+        List<Identifier> lockedDimensions
 ) {
     public record MobAttributeScaling(
             float healthMultiplier,
@@ -68,57 +68,57 @@ public record StageDefinition(
     }
 
     public record EnchantmentEntry(
-            ResourceLocation enchantmentId,
+            Identifier enchantmentId,
             int level
     ) {
         public static final Codec<EnchantmentEntry> CODEC = RecordCodecBuilder.create(i -> i.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(EnchantmentEntry::enchantmentId),
+                Identifier.CODEC.fieldOf("id").forGetter(EnchantmentEntry::enchantmentId),
                 Codec.INT.optionalFieldOf("level", 1).forGetter(EnchantmentEntry::level)
         ).apply(i, EnchantmentEntry::new));
     }
 
     public record EquipmentEntry(
             String slot,
-            ResourceLocation item,
+            Identifier item,
             List<EnchantmentEntry> enchantments,
             float dropChance
     ) {
         public static final Codec<EquipmentEntry> CODEC = RecordCodecBuilder.create(i -> i.group(
                 Codec.STRING.fieldOf("slot").forGetter(EquipmentEntry::slot),
-                ResourceLocation.CODEC.fieldOf("item").forGetter(EquipmentEntry::item),
+                Identifier.CODEC.fieldOf("item").forGetter(EquipmentEntry::item),
                 EnchantmentEntry.CODEC.listOf().optionalFieldOf("enchantments", List.of()).forGetter(EquipmentEntry::enchantments),
                 Codec.FLOAT.optionalFieldOf("drop_chance", 0.0f).forGetter(EquipmentEntry::dropChance)
         ).apply(i, EquipmentEntry::new));
     }
 
     public record MobEquipmentOverride(
-            List<ResourceLocation> entityIds,
+            List<Identifier> entityIds,
             List<EquipmentEntry> equipment
     ) {
         public static final Codec<MobEquipmentOverride> CODEC = RecordCodecBuilder.create(i -> i.group(
-                ResourceLocation.CODEC.listOf().fieldOf("entity_ids").forGetter(MobEquipmentOverride::entityIds),
+                Identifier.CODEC.listOf().fieldOf("entity_ids").forGetter(MobEquipmentOverride::entityIds),
                 EquipmentEntry.CODEC.listOf().optionalFieldOf("equipment", List.of()).forGetter(MobEquipmentOverride::equipment)
         ).apply(i, MobEquipmentOverride::new));
     }
 
     public record OreDisguise(
-            ResourceLocation oreBlock,
-            ResourceLocation disguiseBlock
+            Identifier oreBlock,
+            Identifier disguiseBlock
     ) {
         public static final Codec<OreDisguise> CODEC = RecordCodecBuilder.create(i -> i.group(
-                ResourceLocation.CODEC.fieldOf("ore_block").forGetter(OreDisguise::oreBlock),
-                ResourceLocation.CODEC.fieldOf("disguise_block").forGetter(OreDisguise::disguiseBlock)
+                Identifier.CODEC.fieldOf("ore_block").forGetter(OreDisguise::oreBlock),
+                Identifier.CODEC.fieldOf("disguise_block").forGetter(OreDisguise::disguiseBlock)
         ).apply(i, OreDisguise::new));
     }
 
     public record DropEntry(
-            ResourceLocation item,
+            Identifier item,
             int countMin,
             int countMax,
             float chance
     ) {
         public static final Codec<DropEntry> CODEC = RecordCodecBuilder.create(i -> i.group(
-                ResourceLocation.CODEC.fieldOf("item").forGetter(DropEntry::item),
+                Identifier.CODEC.fieldOf("item").forGetter(DropEntry::item),
                 Codec.INT.optionalFieldOf("count_min", 1).forGetter(DropEntry::countMin),
                 Codec.INT.optionalFieldOf("count_max", 1).forGetter(DropEntry::countMax),
                 Codec.FLOAT.optionalFieldOf("chance", 1.0f).forGetter(DropEntry::chance)
@@ -136,18 +136,18 @@ public record StageDefinition(
     }
 
     public record BossInfo(
-            ResourceLocation entityId,
-            ResourceLocation displayItem,
+            Identifier entityId,
+            Identifier displayItem,
             String locationTranslationKey,
-            List<ResourceLocation> guaranteedDrops,
+            List<Identifier> guaranteedDrops,
             PlayerScaling playerScaling,
             DropTable drops
     ) {
         public static final Codec<BossInfo> CODEC = RecordCodecBuilder.create(i -> i.group(
-                ResourceLocation.CODEC.fieldOf("entity_id").forGetter(BossInfo::entityId),
-                ResourceLocation.CODEC.optionalFieldOf("display_item", ResourceLocation.withDefaultNamespace("barrier")).forGetter(BossInfo::displayItem),
+                Identifier.CODEC.fieldOf("entity_id").forGetter(BossInfo::entityId),
+                Identifier.CODEC.optionalFieldOf("display_item", Identifier.withDefaultNamespace("barrier")).forGetter(BossInfo::displayItem),
                 Codec.STRING.optionalFieldOf("location_translation_key", "").forGetter(BossInfo::locationTranslationKey),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("guaranteed_drops", List.of()).forGetter(BossInfo::guaranteedDrops),
+                Identifier.CODEC.listOf().optionalFieldOf("guaranteed_drops", List.of()).forGetter(BossInfo::guaranteedDrops),
                 PlayerScaling.CODEC.optionalFieldOf("player_scaling", PlayerScaling.NONE).forGetter(BossInfo::playerScaling),
                 DropTable.CODEC.optionalFieldOf("drops", new DropTable("additional", List.of())).forGetter(BossInfo::drops)
         ).apply(i, BossInfo::new));
@@ -162,9 +162,9 @@ public record StageDefinition(
                     OreDisguise.CODEC.listOf().optionalFieldOf("locked_ores", List.of()).forGetter(StageDefinition::lockedOres),
                     BossInfo.CODEC.optionalFieldOf("main_boss").forGetter(StageDefinition::mainBoss),
                     BossInfo.CODEC.listOf().optionalFieldOf("optional_bosses", List.of()).forGetter(StageDefinition::optionalBosses),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("locked_items", List.of()).forGetter(StageDefinition::lockedItems),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("locked_blocks_to_mine", List.of()).forGetter(StageDefinition::lockedBlocks),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("locked_dimensions", List.of()).forGetter(StageDefinition::lockedDimensions)
+                    Identifier.CODEC.listOf().optionalFieldOf("locked_items", List.of()).forGetter(StageDefinition::lockedItems),
+                    Identifier.CODEC.listOf().optionalFieldOf("locked_blocks_to_mine", List.of()).forGetter(StageDefinition::lockedBlocks),
+                    Identifier.CODEC.listOf().optionalFieldOf("locked_dimensions", List.of()).forGetter(StageDefinition::lockedDimensions)
             ).apply(instance, StageDefinition::new)
     );
 }

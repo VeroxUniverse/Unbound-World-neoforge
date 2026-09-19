@@ -1,14 +1,16 @@
 package net.veroxuniverse.unbound_world.client.gui.guide;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,17 +26,18 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public final class BossLootPreview {
 
     private BossLootPreview() {}
 
-    public static List<GuideRow.IconEntry> resolve(ResourceLocation entityId, List<ResourceLocation> guaranteedDrops) {
+    public static List<GuideRow.IconEntry> resolve(Identifier entityId, List<Identifier> guaranteedDrops) {
         List<GuideRow.IconEntry> result = new ArrayList<>();
 
-        for (ResourceLocation guaranteedId : guaranteedDrops) {
-            Item item = BuiltInRegistries.ITEM.get(guaranteedId);
-            if (item != null && item != Items.AIR) {
+        for (Identifier guaranteedId : guaranteedDrops) {
+            Item item = BuiltInRegistries.ITEM.get(guaranteedId).map(Holder::value).orElse(Items.AIR);
+            if (item != Items.AIR) {
                 result.add(new GuideRow.IconEntry(new ItemStack(item), List.of(
                         Component.translatable("gui.unbound_world.guaranteed_drop_label")
                 )));
@@ -47,18 +50,29 @@ public final class BossLootPreview {
             return result;
         }
 
-        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(entityId);
+        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(entityId).map(Holder::value).orElse(null);
+        if (entityType == null) {
+            UnboundWorld.LOGGER.warn("BossLootPreview: could not resolve entity type for {}", entityId);
+            return result;
+        }
+
         ServerLevel serverLevel = server.overworld();
-        Entity previewEntity = entityType.create(serverLevel);
+        Entity previewEntity = entityType.create(serverLevel, EntitySpawnReason.LOAD);
         if (previewEntity == null) {
             UnboundWorld.LOGGER.warn("BossLootPreview: could not create preview entity for {}", entityId);
             return result;
         }
 
-        ResourceKey<LootTable> lootTableKey = entityType.getDefaultLootTable();
+        Optional<ResourceKey<LootTable>> lootTableKeyOpt = entityType.getDefaultLootTable();
+        if (lootTableKeyOpt.isEmpty()) {
+            UnboundWorld.LOGGER.warn("BossLootPreview: no default loot table for {}", entityId);
+            return result;
+        }
+        ResourceKey<LootTable> lootTableKey = lootTableKeyOpt.get();
+
         LootTable lootTable = server.reloadableRegistries().getLootTable(lootTableKey);
         if (lootTable == LootTable.EMPTY) {
-            UnboundWorld.LOGGER.warn("BossLootPreview: loot table {} resolved to EMPTY for {}", lootTableKey.location(), entityId);
+            UnboundWorld.LOGGER.warn("BossLootPreview: loot table {} resolved to EMPTY for {}", lootTableKey.identifier(), entityId);
             return result;
         }
 
@@ -94,7 +108,7 @@ public final class BossLootPreview {
         }
 
         if (occurrences.isEmpty() && guaranteedDrops.isEmpty()) {
-            UnboundWorld.LOGGER.warn("BossLootPreview: loot table {} produced zero items across {} samples for {}", lootTableKey.location(), GuideLayout.LOOT_SAMPLE_COUNT, entityId);
+            UnboundWorld.LOGGER.warn("BossLootPreview: loot table {} produced zero items across {} samples for {}", lootTableKey.identifier(), GuideLayout.LOOT_SAMPLE_COUNT, entityId);
         }
 
         for (Map.Entry<Item, Integer> entry : occurrences.entrySet()) {

@@ -1,6 +1,6 @@
 package net.veroxuniverse.unbound_world.stage;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.*;
 
@@ -8,18 +8,18 @@ public class StageManager {
 
     private static int currentUnlockedOrder = -1;
 
-    private static final Map<ResourceLocation, StageDefinition> STAGES = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition> ITEM_RESTRICTIONS = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition> BLOCK_RESTRICTIONS = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition> DIMENSION_RESTRICTIONS = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition> MAIN_BOSS_TRIGGERS = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition.BossInfo> ALL_BOSS_INFOS = new HashMap<>();
-    private static final Map<ResourceLocation, StageDefinition> BOSS_OWNING_STAGE = new HashMap<>();
-    private static final NavigableMap<Integer, Map<ResourceLocation, StageDefinition.MobEquipmentOverride>> EQUIPMENT_BY_STAGE_ORDER = new TreeMap<>();
-    private static final Map<ResourceLocation, StageDefinition> ORE_OWNING_STAGE = new HashMap<>();
-    private static final Map<ResourceLocation, ResourceLocation> ORE_DISGUISE = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> STAGES = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> ITEM_RESTRICTIONS = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> BLOCK_RESTRICTIONS = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> DIMENSION_RESTRICTIONS = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> MAIN_BOSS_TRIGGERS = new HashMap<>();
+    private static final Map<Identifier, StageDefinition.BossInfo> ALL_BOSS_INFOS = new HashMap<>();
+    private static final Map<Identifier, StageDefinition> BOSS_OWNING_STAGE = new HashMap<>();
+    private static final NavigableMap<Integer, Map<Identifier, StageDefinition.MobEquipmentOverride>> EQUIPMENT_BY_STAGE_ORDER = new TreeMap<>();
+    private static final Map<Identifier, StageDefinition> ORE_OWNING_STAGE = new HashMap<>();
+    private static final Map<Identifier, Identifier> ORE_DISGUISE = new HashMap<>();
 
-    public static synchronized void reloadStages(Map<ResourceLocation, StageDefinition> newStages) {
+    public static synchronized void reloadStages(Map<Identifier, StageDefinition> newStages) {
         STAGES.clear();
         ITEM_RESTRICTIONS.clear();
         BLOCK_RESTRICTIONS.clear();
@@ -34,13 +34,13 @@ public class StageManager {
         STAGES.putAll(newStages);
 
         for (StageDefinition stage : STAGES.values()) {
-            for (ResourceLocation item : stage.lockedItems()) {
+            for (Identifier item : stage.lockedItems()) {
                 ITEM_RESTRICTIONS.put(item, stage);
             }
-            for (ResourceLocation block : stage.lockedBlocks()) {
+            for (Identifier block : stage.lockedBlocks()) {
                 BLOCK_RESTRICTIONS.put(block, stage);
             }
-            for (ResourceLocation dimension : stage.lockedDimensions()) {
+            for (Identifier dimension : stage.lockedDimensions()) {
                 DIMENSION_RESTRICTIONS.put(dimension, stage);
             }
             stage.mainBoss().ifPresent(boss -> {
@@ -53,9 +53,9 @@ public class StageManager {
                 BOSS_OWNING_STAGE.put(optBoss.entityId(), stage);
             }
             for (StageDefinition.MobEquipmentOverride override : stage.mobEquipment()) {
-                Map<ResourceLocation, StageDefinition.MobEquipmentOverride> forStage =
+                Map<Identifier, StageDefinition.MobEquipmentOverride> forStage =
                         EQUIPMENT_BY_STAGE_ORDER.computeIfAbsent(stage.order(), k -> new HashMap<>());
-                for (ResourceLocation entityId : override.entityIds()) {
+                for (Identifier entityId : override.entityIds()) {
                     forStage.put(entityId, override);
                 }
             }
@@ -70,35 +70,39 @@ public class StageManager {
         currentUnlockedOrder = order;
     }
 
+    public static void setClientUnlockedOrder(int order) {
+        currentUnlockedOrder = order;
+    }
+
     public static int getUnlockedOrder() {
         return currentUnlockedOrder;
     }
 
-    public static boolean isItemLocked(ResourceLocation itemId) {
+    public static boolean isItemLocked(Identifier itemId) {
         StageDefinition req = ITEM_RESTRICTIONS.get(itemId);
         return req != null && req.order() > currentUnlockedOrder;
     }
 
-    public static boolean isBlockLocked(ResourceLocation blockId) {
+    public static boolean isBlockLocked(Identifier blockId) {
         StageDefinition req = BLOCK_RESTRICTIONS.get(blockId);
         return req != null && req.order() > currentUnlockedOrder;
     }
 
-    public static boolean isDimensionLocked(ResourceLocation dimensionId) {
+    public static boolean isDimensionLocked(Identifier dimensionId) {
         StageDefinition req = DIMENSION_RESTRICTIONS.get(dimensionId);
         return req != null && req.order() > currentUnlockedOrder;
     }
 
-    public static boolean isOreLocked(ResourceLocation oreBlockId) {
+    public static boolean isOreLocked(Identifier oreBlockId) {
         StageDefinition req = ORE_OWNING_STAGE.get(oreBlockId);
         return req != null && req.order() > currentUnlockedOrder;
     }
 
-    public static Optional<ResourceLocation> getDisguiseBlock(ResourceLocation oreBlockId) {
+    public static Optional<Identifier> getDisguiseBlock(Identifier oreBlockId) {
         return Optional.ofNullable(ORE_DISGUISE.get(oreBlockId));
     }
 
-    public static boolean isBossLocked(ResourceLocation entityId) {
+    public static boolean isBossLocked(Identifier entityId) {
         StageDefinition owningStage = BOSS_OWNING_STAGE.get(entityId);
         return owningStage != null && currentUnlockedOrder < owningStage.order() - 1;
     }
@@ -111,11 +115,11 @@ public class StageManager {
                 .orElse(StageDefinition.MobAttributeScaling.NONE);
     }
 
-    public static Optional<StageDefinition.MobEquipmentOverride> getCurrentEquipmentOverride(ResourceLocation entityId) {
-        NavigableMap<Integer, Map<ResourceLocation, StageDefinition.MobEquipmentOverride>> eligibleStages =
+    public static Optional<StageDefinition.MobEquipmentOverride> getCurrentEquipmentOverride(Identifier entityId) {
+        NavigableMap<Integer, Map<Identifier, StageDefinition.MobEquipmentOverride>> eligibleStages =
                 EQUIPMENT_BY_STAGE_ORDER.headMap(currentUnlockedOrder, true);
 
-        for (Map<ResourceLocation, StageDefinition.MobEquipmentOverride> forStage : eligibleStages.descendingMap().values()) {
+        for (Map<Identifier, StageDefinition.MobEquipmentOverride> forStage : eligibleStages.descendingMap().values()) {
             StageDefinition.MobEquipmentOverride override = forStage.get(entityId);
             if (override != null) {
                 return Optional.of(override);
@@ -125,23 +129,23 @@ public class StageManager {
         return Optional.empty();
     }
 
-    public static Optional<StageDefinition> getRequiredStageForItem(ResourceLocation itemId) {
+    public static Optional<StageDefinition> getRequiredStageForItem(Identifier itemId) {
         return Optional.ofNullable(ITEM_RESTRICTIONS.get(itemId));
     }
 
-    public static Optional<StageDefinition> getRequiredStageForBlock(ResourceLocation blockId) {
+    public static Optional<StageDefinition> getRequiredStageForBlock(Identifier blockId) {
         return Optional.ofNullable(BLOCK_RESTRICTIONS.get(blockId));
     }
 
-    public static Optional<StageDefinition> getRequiredStageForOre(ResourceLocation oreBlockId) {
+    public static Optional<StageDefinition> getRequiredStageForOre(Identifier oreBlockId) {
         return Optional.ofNullable(ORE_OWNING_STAGE.get(oreBlockId));
     }
 
-    public static Optional<StageDefinition> getRequiredStageForDimension(ResourceLocation dimensionId) {
+    public static Optional<StageDefinition> getRequiredStageForDimension(Identifier dimensionId) {
         return Optional.ofNullable(DIMENSION_RESTRICTIONS.get(dimensionId));
     }
 
-    public static Optional<StageDefinition> getOwningStageForBoss(ResourceLocation entityId) {
+    public static Optional<StageDefinition> getOwningStageForBoss(Identifier entityId) {
         return Optional.ofNullable(BOSS_OWNING_STAGE.get(entityId));
     }
 
@@ -149,11 +153,11 @@ public class StageManager {
         return STAGES.values();
     }
 
-    public static Optional<StageDefinition> getStageForBoss(ResourceLocation entityId) {
+    public static Optional<StageDefinition> getStageForBoss(Identifier entityId) {
         return Optional.ofNullable(MAIN_BOSS_TRIGGERS.get(entityId));
     }
 
-    public static Optional<StageDefinition.BossInfo> getBossInfo(ResourceLocation entityId) {
+    public static Optional<StageDefinition.BossInfo> getBossInfo(Identifier entityId) {
         return Optional.ofNullable(ALL_BOSS_INFOS.get(entityId));
     }
 }

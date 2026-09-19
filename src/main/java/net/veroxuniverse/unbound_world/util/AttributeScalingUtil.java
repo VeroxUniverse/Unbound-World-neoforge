@@ -1,7 +1,7 @@
 package net.veroxuniverse.unbound_world.util;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -11,7 +11,7 @@ public final class AttributeScalingUtil {
 
     private AttributeScalingUtil() {}
 
-    public static void applyFractionModifier(LivingEntity entity, Holder<Attribute> attribute, ResourceLocation modifierId, double bonusFraction) {
+    public static void applyFractionModifier(LivingEntity entity, Holder<Attribute> attribute, Identifier modifierId, double bonusFraction) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance == null) return;
 

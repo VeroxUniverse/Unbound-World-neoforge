@@ -1,8 +1,9 @@
 package net.veroxuniverse.unbound_world.handler;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,11 +32,11 @@ public class OreDisguiseHandler {
 
         event.getPosition().ifPresent(pos -> {
             BlockState realState = level.getBlockState(pos);
-            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(realState.getBlock());
+            Identifier blockId = BuiltInRegistries.BLOCK.getKey(realState.getBlock());
 
             if (StageManager.isOreLocked(blockId)) {
                 StageManager.getDisguiseBlock(blockId).ifPresent(disguiseId -> {
-                    Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId);
+                    Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId).map(Holder::value).orElse(null);
                     if (disguiseBlock != null) {
                         BlockState disguiseState = disguiseBlock.defaultBlockState();
                         ItemStack tool = player.getMainHandItem();
@@ -61,11 +62,11 @@ public class OreDisguiseHandler {
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
 
         BlockState realState = event.getState();
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(realState.getBlock());
+        Identifier blockId = BuiltInRegistries.BLOCK.getKey(realState.getBlock());
 
         if (StageManager.isOreLocked(blockId)) {
             StageManager.getDisguiseBlock(blockId).ifPresent(disguiseId -> {
-                Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId);
+                Block disguiseBlock = BuiltInRegistries.BLOCK.get(disguiseId).map(Holder::value).orElse(null);
                 if (disguiseBlock != null) {
                     BlockPos pos = event.getPos();
                     BlockState disguiseState = disguiseBlock.defaultBlockState();

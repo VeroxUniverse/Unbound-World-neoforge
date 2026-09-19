@@ -1,14 +1,16 @@
 package net.veroxuniverse.unbound_world.client.gui.guide;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.veroxuniverse.unbound_world.UnboundWorld;
 import net.veroxuniverse.unbound_world.stage.StageDefinition;
 import net.veroxuniverse.unbound_world.stage.StageManager;
 
@@ -102,20 +104,20 @@ public final class GuideViewBuilder {
         }
 
         List<GuideRow.IconEntry> lockedEntries = new ArrayList<>();
-        List<ResourceLocation> locked = new ArrayList<>();
+        List<Identifier> locked = new ArrayList<>();
         locked.addAll(stage.lockedItems());
         locked.addAll(stage.lockedBlocks());
 
-        for (ResourceLocation loc : locked) {
-            Item item = BuiltInRegistries.ITEM.get(loc);
-            if (item != null && item != Items.AIR) {
+        for (Identifier loc : locked) {
+            Item item = BuiltInRegistries.ITEM.get(loc).map(Holder::value).orElse(Items.AIR);
+            if (item != Items.AIR) {
                 lockedEntries.add(new GuideRow.IconEntry(new ItemStack(item), List.of(Component.translatable("gui.unbound_world.locked_until_defeated"))));
             }
         }
 
         for (StageDefinition.OreDisguise ore : stage.lockedOres()) {
-            Item item = BuiltInRegistries.ITEM.get(ore.oreBlock());
-            if (item != null && item != Items.AIR) {
+            Item item = BuiltInRegistries.ITEM.get(ore.oreBlock()).map(Holder::value).orElse(Items.AIR);
+            if (item != Items.AIR) {
                 lockedEntries.add(new GuideRow.IconEntry(new ItemStack(item), List.of(Component.translatable("gui.unbound_world.locked_ore_notice"))));
             }
         }
@@ -153,8 +155,8 @@ public final class GuideViewBuilder {
 
         if (includeCustom) {
             for (StageDefinition.DropEntry drop : boss.drops().drops()) {
-                Item item = BuiltInRegistries.ITEM.get(drop.item());
-                if (item != null && item != Items.AIR) {
+                Item item = BuiltInRegistries.ITEM.get(drop.item()).map(Holder::value).orElse(Items.AIR);
+                if (item != Items.AIR) {
                     int count = drop.countMin() == drop.countMax() ? drop.countMin() : drop.countMax();
                     ItemStack stack = new ItemStack(item, Math.max(1, count));
 
@@ -181,13 +183,13 @@ public final class GuideViewBuilder {
         }
     }
 
-    private static ItemStack resolveIcon(ResourceLocation displayItem) {
-        Item iconItem = BuiltInRegistries.ITEM.get(displayItem);
+    private static ItemStack resolveIcon(Identifier displayItem) {
+        Item iconItem = BuiltInRegistries.ITEM.get(displayItem).map(Holder::value).orElse(null);
         return iconItem != null ? new ItemStack(iconItem) : new ItemStack(Items.BARRIER);
     }
 
     public static Component getBossDisplayName(StageDefinition.BossInfo bossInfo) {
-        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(bossInfo.entityId());
-        return entityType.getDescription();
+        EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(bossInfo.entityId()).map(Holder::value).orElse(null);
+        return entityType != null ? entityType.getDescription() : Component.literal(bossInfo.entityId().toString());
     }
 }

@@ -6,9 +6,6 @@
   "mixins": [
   ],
   "client": [
-    "client.OreRenderDisguiseMixin",
-    "client.ParticleEngineMixin",
-    "client.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

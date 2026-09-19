@@ -1,7 +1,7 @@
 package net.veroxuniverse.unbound_world.handler;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,10 +17,10 @@ import net.veroxuniverse.unbound_world.util.AttributeScalingUtil;
 @EventBusSubscriber(modid = UnboundWorld.MOD_ID)
 public class BossPlayerScalingHandler {
 
-    private static final ResourceLocation HEALTH_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_health");
-    private static final ResourceLocation DAMAGE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_damage");
-    private static final ResourceLocation KNOCKBACK_RESISTANCE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_knockback_resistance");
-    private static final ResourceLocation ARMOR_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_armor");
+    private static final Identifier HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_health");
+    private static final Identifier DAMAGE_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_damage");
+    private static final Identifier KNOCKBACK_RESISTANCE_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_knockback_resistance");
+    private static final Identifier ARMOR_MODIFIER_ID = Identifier.fromNamespaceAndPath(UnboundWorld.MOD_ID, "boss_player_scaling_armor");
 
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
@@ -28,7 +28,7 @@ public class BossPlayerScalingHandler {
         if (!(event.getEntity() instanceof LivingEntity boss)) return;
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
 
-        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(boss.getType());
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(boss.getType());
         StageDefinition.BossInfo bossInfo = StageManager.getBossInfo(entityId).orElse(null);
         if (bossInfo == null) return;
 
