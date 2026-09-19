@@ -70,7 +70,9 @@
   "locked_blocks_to_mine": [
     "minecraft:conduit",
     "minecraft:enchanting_table",
-    "minecraft:anvil"
+    "minecraft:anvil",
+    "minecraft:chipped_anvil",
+    "minecraft:damaged_anvil"
   ],
   "locked_ores": [
     {
