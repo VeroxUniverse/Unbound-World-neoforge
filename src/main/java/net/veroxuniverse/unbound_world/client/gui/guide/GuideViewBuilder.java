@@ -139,7 +139,11 @@ public final class GuideViewBuilder {
             headerLines.addAll(font.split(Component.translatable(locationKey), GuideLayout.HEADER_TEXT_WIDTH));
         }
 
-        int baseY = top + GuideLayout.CONTENT_TOP_OFFSET;
+        // +2px: the drop grid sits directly under the header with no label row above it
+        // (unlike the "Sealed Items & Blocks" grid, which already has its own spacing after
+        // its label), so it needed its own small nudge down. Does not touch the scroll clip
+        // box (CONTENT_TOP_OFFSET/CONTENT_BOTTOM_OFFSET) - only where content starts inside it.
+        int baseY = top + GuideLayout.CONTENT_TOP_OFFSET + 2;
 
         String mode = boss.drops().mode();
         boolean includeVanilla = !"replace".equalsIgnoreCase(mode);
