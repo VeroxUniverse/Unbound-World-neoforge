@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.veroxuniverse.verox_rpg_prog.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "OreExperienceDisguiseMixin"
+  ],
+  "client": [
+    "client.OreRenderDisguiseMixin",
+    "client.ParticleEngineMixin",
+    "client.LevelRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "config.jade.plugin_verox_rpg_prog.locked_block": "Sealed Blocks",
+
+  "message.verox_rpg_prog.block_locked": "§cThis block remains sealed to you.§r",
+  "message.verox_rpg_prog.block_place_locked": "§cYou cannot place sealed blocks yet.§r",
+  "message.verox_rpg_prog.item_locked": "§cThis sealed item rejects your touch.§r",
+  "message.verox_rpg_prog.weapon_nerfed": "§eYour weapon's power is suppressed to base level.§r",
+  "message.verox_rpg_prog.stage_unlocked": "§aA seal has broken! Stage unlocked: §e%s§r",
+  "message.verox_rpg_prog.boss_sealed": "§cThis foe is sealed until §e%s§c is cleared.§r",
+  "message.verox_rpg_prog.boss_sealed_generic": "§cThis foe remains sealed to you.§r",
+  "message.verox_rpg_prog.dimension_sealed": "§cThe way is sealed until §e%s§c is cleared.§r",
+  "message.verox_rpg_prog.dimension_sealed_generic": "§cThis dimension remains sealed to you.§r",
+
+  "title.verox_rpg_prog.stage_unlocked": "§6§lSEAL BROKEN§r",
+
+  "tooltip.verox_rpg_prog.locked_title": "§4[Sealed Item]§r",
+  "tooltip.verox_rpg_prog.locked_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.verox_rpg_prog.locked_status": " §8• §cSealed§r",
+
+  "tooltip.verox_rpg_prog.locked_block_title": "§4[Sealed Block]§r",
+  "tooltip.verox_rpg_prog.locked_block_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.verox_rpg_prog.locked_block_status": " §8• §cSealed§r",
+
+  "tooltip.verox_rpg_prog.locked_ore_title": "§4[Sealed Ore]§r",
+  "tooltip.verox_rpg_prog.locked_ore_stage": " §8• §7Requires: §e%s§r",
+  "tooltip.verox_rpg_prog.locked_ore_status": " §8• §cYields no ore while sealed§r",
+
+  "stage.verox_rpg_prog.raiders_dawn": "Raiders' Dawn",
+  "stage.verox_rpg_prog.raiders_dawn.summary": "A pillager raid threatens the land. Defeat its evoker to earn your first taste of undying power.",
+  "stage.verox_rpg_prog.echoes": "The Echoes",
+  "stage.verox_rpg_prog.echoes.summary": "The seas grow restless. Depths once calm now hide a guardian of ancient treasure.",
+  "stage.verox_rpg_prog.sculk_dread": "Sculk Dread",
+  "stage.verox_rpg_prog.sculk_dread.summary": "Something ancient listens in the deep dark. Every step echoes closer to its wrath.",
+  "stage.verox_rpg_prog.hellfire": "Hellfire Unleashed",
+  "stage.verox_rpg_prog.hellfire.summary": "The Nether's fury boils over. Its undying tyrant demands a reckoning.",
+  "stage.verox_rpg_prog.void_call": "The Void Call",
+  "stage.verox_rpg_prog.void_call.summary": "Beyond the stars, the End awakens. Its ancient sentinel guards what should not be taken.",
+
+  "key.categories.verox_rpg_prog": "Verox' RPG Progression",
+  "key.verox_rpg_prog.open_guide": "Open World Guide",
+
+  "item.verox_rpg_prog.loot_bag": "Loot Bag",
+  "item.verox_rpg_prog.loot_bag.from": "§7From: §e%s§r",
+
+  "gui.verox_rpg_prog.guide_title": "The Unbound Progression",
+  "gui.verox_rpg_prog.sealed_world": "Sealed World",
+  "gui.verox_rpg_prog.stage_number": "Stage %s",
+  "gui.verox_rpg_prog.world_stage_prefix": "World Stage: ",
+  "gui.verox_rpg_prog.progressions_label": "World Progressions:",
+  "gui.verox_rpg_prog.stage_summary_label": "Stage Summary:",
+  "gui.verox_rpg_prog.sealed_items_label": "Sealed Items & Blocks:",
+  "gui.verox_rpg_prog.main_boss_prefix": "Main Boss: ",
+  "gui.verox_rpg_prog.spawn_info_label": "Spawn Information:",
+  "gui.verox_rpg_prog.drops_label": "Drops:",
+  "gui.verox_rpg_prog.details_suffix": " - Details",
+  "gui.verox_rpg_prog.click_to_open": "§7[Click to open]§r",
+  "gui.verox_rpg_prog.click_to_see_details": "§7[Click to see boss details]§r",
+  "gui.verox_rpg_prog.click_to_go_back": "§7[Click to go back]§r",
+  "gui.verox_rpg_prog.locked_until_defeated": "§cLocked until defeated!§r",
+  "gui.verox_rpg_prog.locked_ore_notice": "§cYields no ore until defeated!§r",
+  "gui.verox_rpg_prog.chance_label": "§7Chance: §e%s%%§r",
+  "gui.verox_rpg_prog.chance_label_approx": "§7Chance: §e~%s%%§r",
+  "gui.verox_rpg_prog.amount_label": "§7Amount: §f%s - %s§r",
+  "gui.verox_rpg_prog.avg_amount_label": "§7Avg amount: §f%s§r",
+  "gui.verox_rpg_prog.boss_progression_label": "Boss Progression:",
+  "gui.verox_rpg_prog.guaranteed_drop_label": "§7Guaranteed drop§r",
+
+  "boss.verox_rpg_prog.evoker.location": "Leads pillager raids that assault villages with an Ominous Bottle or a raid horn.",
+  "boss.verox_rpg_prog.pillager.location": "Marches with raiding parties and patrols, crossbow in hand.",
+  "boss.verox_rpg_prog.vindicator.location": "Guards Woodland Mansions and marches with raiding parties.",
+  "boss.verox_rpg_prog.ravager.location": "Charges alongside raiding parties, ridden by pillager captains.",
+  "boss.verox_rpg_prog.vex.location": "Summoned by an evoker, flitting erratically through walls.",
+  "boss.verox_rpg_prog.illusioner.location": "A rare, elusive raider that conjures illusions and blinding magic.",
+
+  "boss.verox_rpg_prog.elder_guardian.location": "Found in ocean monuments, guarding the depths alongside its guardian kin.",
+  "boss.verox_rpg_prog.guardian.location": "Patrols ocean monuments, striking with a laser gaze.",
+
+  "boss.verox_rpg_prog.warden.location": "Emerges from the deepest sculk shrieker alarms within an Ancient City.",
+
+  "boss.verox_rpg_prog.wither.location": "Summoned in the Nether wastes by those bold enough to defy its return.",
+  "boss.verox_rpg_prog.blaze.location": "Guards Nether Fortresses, hurling fireballs from above.",
+  "boss.verox_rpg_prog.ghast.location": "Drifts through Nether skies, raining explosive fireballs.",
+  "boss.verox_rpg_prog.magma_cube.location": "Bounces through the Nether's basalt deltas and fortresses.",
+  "boss.verox_rpg_prog.wither_skeleton.location": "Stalks the dark fortress halls of the Nether.",
+  "boss.verox_rpg_prog.piglin_brute.location": "Guards Bastion Remnants deep within the Nether.",
+  "boss.verox_rpg_prog.hoglin.location": "Roams the crimson forests of the Nether in aggressive herds.",
+  "boss.verox_rpg_prog.zoglin.location": "A corrupted hoglin, mindlessly hostile wherever it wanders.",
+
+  "boss.verox_rpg_prog.ender_dragon.location": "Circles the central obsidian pillars of the End dimension.",
+  "boss.verox_rpg_prog.shulker.location": "Hides within End City towers, camouflaged against the purpur blocks."
+}

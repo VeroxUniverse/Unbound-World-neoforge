@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:pillager",
+    "minecraft:vindicator",
+    "minecraft:vex",
+    "minecraft:guardian",
+    "minecraft:blaze",
+    "minecraft:ghast",
+    "minecraft:magma_cube",
+    "minecraft:wither_skeleton",
+    "minecraft:hoglin",
+    "minecraft:zoglin",
+    "minecraft:shulker"
+  ]
+}

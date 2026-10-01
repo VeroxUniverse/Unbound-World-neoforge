@@ -1,0 +1,52 @@
+{
+  "order": 4,
+  "stage_translation_key": "stage.verox_rpg_prog.void_call",
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.8,
+    "damage_multiplier": 1.6,
+    "knockback_resistance_multiplier": 1.1,
+    "armor_multiplier": 1.25,
+    "attributes": [
+      { "attribute": "unbound_lib:crit_chance", "amount": 0.05 },
+      { "attribute": "unbound_lib:armor_penetration", "amount": 0.1 }
+    ]
+  },
+  "main_boss": {
+    "entity_id": "minecraft:ender_dragon",
+    "display_item": "minecraft:dragon_egg",
+    "location_translation_key": "boss.verox_rpg_prog.ender_dragon.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 64.0,
+      "health_per_extra_player": 0.6,
+      "damage_per_extra_player": 0.25,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        { "item": "minecraft:elytra", "count_min": 1, "count_max": 1, "chance": 1.0 }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:shulker",
+      "display_item": "minecraft:shulker_shell",
+      "location_translation_key": "boss.verox_rpg_prog.shulker.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:elytra",
+    "minecraft:shulker_box"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:beacon"
+  ]
+}
