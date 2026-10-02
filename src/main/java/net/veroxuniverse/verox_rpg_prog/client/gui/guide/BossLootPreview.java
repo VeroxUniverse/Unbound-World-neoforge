@@ -47,6 +47,21 @@ public final class BossLootPreview {
             return result;
         }
 
+        List<GuideRow.IconEntry> rolled = server.isSameThread()
+                ? rollLootTable(server, entityId)
+                : server.submit(() -> rollLootTable(server, entityId)).join();
+
+        if (rolled.isEmpty() && guaranteedDrops.isEmpty()) {
+            RPGProgression.LOGGER.warn("BossLootPreview: loot table produced zero items for {}", entityId);
+        }
+
+        result.addAll(rolled);
+        return result;
+    }
+
+    private static List<GuideRow.IconEntry> rollLootTable(MinecraftServer server, ResourceLocation entityId) {
+        List<GuideRow.IconEntry> result = new ArrayList<>();
+
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.get(entityId);
         ServerLevel serverLevel = server.overworld();
         Entity previewEntity = entityType.create(serverLevel);
@@ -91,10 +106,6 @@ public final class BossLootPreview {
                 occurrences.merge(stack.getItem(), 1, Integer::sum);
                 totalCount.merge(stack.getItem(), stack.getCount(), Integer::sum);
             }
-        }
-
-        if (occurrences.isEmpty() && guaranteedDrops.isEmpty()) {
-            RPGProgression.LOGGER.warn("BossLootPreview: loot table {} produced zero items across {} samples for {}", lootTableKey.location(), GuideLayout.LOOT_SAMPLE_COUNT, entityId);
         }
 
         for (Map.Entry<Item, Integer> entry : occurrences.entrySet()) {

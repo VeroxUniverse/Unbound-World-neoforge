@@ -1,4 +1,7 @@
 {
+  "excluded_mods": [
+    "irons_spellbooks"
+  ],
   "order": 2,
   "stage_translation_key": "stage.verox_rpg_prog.sculk_dread",
   "territories": [

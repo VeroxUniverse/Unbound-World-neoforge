@@ -1,0 +1,193 @@
+{
+  "required_mods": [
+    "irons_spellbooks"
+  ],
+  "order": 2,
+  "stage_translation_key": "stage.verox_rpg_prog.frostbound",
+  "territories": [
+    {
+      "structures": [
+        "irons_spellbooks:ice_spider_den"
+      ],
+      "damage_per_second": 1.0,
+      "max_health_percent_per_second": 0.05,
+      "tint": "#1A3A5A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.3,
+        "damage_multiplier": 1.2
+      }
+    },
+    {
+      "structures": [
+        "minecraft:ancient_city"
+      ],
+      "damage_per_second": 1.0,
+      "max_health_percent_per_second": 0.05,
+      "tint": "#062A2E",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.3,
+        "damage_multiplier": 1.2
+      }
+    }
+  ],
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.3,
+    "damage_multiplier": 1.2,
+    "knockback_resistance_multiplier": 1.0,
+    "armor_multiplier": 1.05
+  },
+  "mob_equipment": [
+    {
+      "entity_ids": [
+        "minecraft:zombie",
+        "minecraft:husk",
+        "minecraft:drowned",
+        "minecraft:zombie_villager"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:iron_sword",
+          "enchantments": [
+            {
+              "id": "minecraft:sharpness",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        },
+        {
+          "slot": "head",
+          "item": "minecraft:iron_helmet",
+          "enchantments": [],
+          "drop_chance": 0.0
+        }
+      ]
+    },
+    {
+      "entity_ids": [
+        "minecraft:skeleton",
+        "minecraft:stray"
+      ],
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": "minecraft:bow",
+          "enchantments": [
+            {
+              "id": "minecraft:power",
+              "level": 1
+            }
+          ],
+          "drop_chance": 0.02
+        }
+      ]
+    }
+  ],
+  "main_boss": {
+    "entity_id": "irons_spellbooks:ice_spider",
+    "display_item": "irons_spellbooks:icy_fang",
+    "location_translation_key": "boss.verox_rpg_prog.ice_spider.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 40.0,
+      "health_per_extra_player": 0.5,
+      "damage_per_extra_player": 0.2,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "irons_spellbooks:icy_fang",
+          "count_min": 1,
+          "count_max": 2,
+          "chance": 1.0
+        },
+        {
+          "item": "irons_spellbooks:permafrost_shard",
+          "count_min": 2,
+          "count_max": 4,
+          "chance": 0.75
+        }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "minecraft:warden",
+      "display_item": "minecraft:echo_shard",
+      "location_translation_key": "boss.verox_rpg_prog.warden.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": [
+          {
+            "item": "minecraft:echo_shard",
+            "count_min": 1,
+            "count_max": 3,
+            "chance": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "entity_id": "irons_spellbooks:cryomancer",
+      "display_item": "irons_spellbooks:frozen_bone",
+      "location_translation_key": "boss.verox_rpg_prog.cryomancer.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "minecraft:echo_shard",
+    "minecraft:recovery_compass",
+    "minecraft:ender_eye",
+    "irons_spellbooks:raw_mithril",
+    "irons_spellbooks:mithril_scrap",
+    "irons_spellbooks:mithril_ingot",
+    "irons_spellbooks:mithril_weave",
+    "irons_spellbooks:ice_staff",
+    "irons_spellbooks:boreal_blade",
+    "irons_spellbooks:magehunter",
+    "irons_spellbooks:spellbreaker",
+    "irons_spellbooks:affinity_ring",
+    "irons_spellbooks:concentration_amulet",
+    "irons_spellbooks:cryomancer_helmet",
+    "irons_spellbooks:cryomancer_chestplate",
+    "irons_spellbooks:cryomancer_leggings",
+    "irons_spellbooks:cryomancer_boots",
+    "irons_spellbooks:shadowwalker_helmet",
+    "irons_spellbooks:shadowwalker_chestplate",
+    "irons_spellbooks:shadowwalker_leggings",
+    "irons_spellbooks:shadowwalker_boots",
+    "irons_spellbooks:pyromancer_helmet",
+    "irons_spellbooks:pyromancer_chestplate",
+    "irons_spellbooks:pyromancer_leggings",
+    "irons_spellbooks:pyromancer_boots",
+    "irons_spellbooks:twilight_gale"
+  ],
+  "locked_blocks_to_mine": [
+    "minecraft:sculk_catalyst",
+    "minecraft:sculk_shrieker"
+  ],
+  "locked_ores": [
+    {
+      "ore_block": "irons_spellbooks:mithril_ore",
+      "disguise_block": "minecraft:stone"
+    },
+    {
+      "ore_block": "irons_spellbooks:deepslate_mithril_ore",
+      "disguise_block": "minecraft:deepslate"
+    }
+  ],
+  "locked_dimensions": [
+    "minecraft:the_nether"
+  ]
+}

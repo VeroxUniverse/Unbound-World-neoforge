@@ -1,8 +1,8 @@
 {
-  "excluded_mods": [
+  "required_mods": [
     "irons_spellbooks"
   ],
-  "order": 3,
+  "order": 4,
   "stage_translation_key": "stage.verox_rpg_prog.hellfire",
   "territories": [
     {
@@ -209,7 +209,12 @@
     "minecraft:netherite_chestplate",
     "minecraft:netherite_leggings",
     "minecraft:netherite_boots",
-    "minecraft:respawn_anchor"
+    "minecraft:respawn_anchor",
+    "irons_spellbooks:netherite_spell_book",
+    "irons_spellbooks:netherite_mage_helmet",
+    "irons_spellbooks:netherite_mage_chestplate",
+    "irons_spellbooks:netherite_mage_leggings",
+    "irons_spellbooks:netherite_mage_boots"
   ],
   "locked_blocks_to_mine": [
     "minecraft:brewing_stand"
@@ -219,8 +224,5 @@
       "ore_block": "minecraft:ancient_debris",
       "disguise_block": "minecraft:netherrack"
     }
-  ],
-  "locked_dimensions": [
-    "minecraft:the_end"
   ]
 }

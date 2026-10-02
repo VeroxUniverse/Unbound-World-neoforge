@@ -256,20 +256,8 @@ public class StageBookScreen extends Screen {
                 overview.add(Line.indented(dimensionName(dimension).getVisualOrderText(), BookLayout.TEXT_COLOR, 4));
             }
         }
-        if (!stage.territories().isEmpty()) {
-            overview.add(Line.gap(8));
-            overview.add(Line.text(subheader("gui.verox_rpg_prog.book.territories").getVisualOrderText(), BookLayout.HEADER_COLOR));
-            overview.add(Line.gap(2));
-            for (StageDefinition.Territory territory : stage.territories()) {
-                for (String structure : territory.structures()) {
-                    overview.add(Line.indented(territoryEntryName(structure, "structure").getVisualOrderText(), BookLayout.TEXT_COLOR, 4));
-                }
-                for (String biome : territory.biomes()) {
-                    overview.add(Line.indented(territoryEntryName(biome, "biome").getVisualOrderText(), BookLayout.TEXT_COLOR, 4));
-                }
-            }
-        }
         result.addAll(this.paginateLines(Component.translatable(stage.translationKey()), overview));
+
 
         List<BossElement> bosses = new ArrayList<>();
         if (stage.mainBoss().isPresent()) {
@@ -288,12 +276,52 @@ public class StageBookScreen extends Screen {
             result.addAll(this.paginateBosses(bosses));
         }
 
+        if (!stage.territories().isEmpty()) {
+            result.addAll(this.paginateLines(Component.translatable("gui.verox_rpg_prog.book.territories"), this.territoryLines(stage, status)));
+        }
+
         List<IconEntry> sealed = sealedEntries(stage);
         if (!sealed.isEmpty()) {
             result.addAll(this.paginateGrid(Component.translatable("gui.verox_rpg_prog.sealed_items_label"), sealed));
         }
 
         return result;
+    }
+
+    private List<Line> territoryLines(StageDefinition stage, StageStatus status) {
+        List<Line> lines = new ArrayList<>();
+        String stateKey = switch (status) {
+            case LOCKED -> "gui.verox_rpg_prog.book.territory_state.locked";
+            case CURRENT -> "gui.verox_rpg_prog.book.territory_state.current";
+            case CLEARED -> "gui.verox_rpg_prog.book.territory_state.cleared";
+        };
+        lines.add(Line.centered(Component.translatable(stateKey).getVisualOrderText(), statusColor(status)));
+
+        List<String> structures = new ArrayList<>();
+        List<String> biomes = new ArrayList<>();
+        for (StageDefinition.Territory territory : stage.territories()) {
+            structures.addAll(territory.structures());
+            biomes.addAll(territory.biomes());
+        }
+
+        if (!structures.isEmpty()) {
+            lines.add(Line.gap(8));
+            lines.add(Line.text(subheader("gui.verox_rpg_prog.book.structures").getVisualOrderText(), BookLayout.HEADER_COLOR));
+            lines.add(Line.gap(2));
+            for (String structure : structures) {
+                lines.add(Line.indented(territoryEntryName(structure, "structure").getVisualOrderText(), BookLayout.TEXT_COLOR, 4));
+            }
+        }
+
+        if (!biomes.isEmpty()) {
+            lines.add(Line.gap(8));
+            lines.add(Line.text(subheader("gui.verox_rpg_prog.book.biomes").getVisualOrderText(), BookLayout.HEADER_COLOR));
+            lines.add(Line.gap(2));
+            for (String biome : biomes) {
+                lines.add(Line.indented(territoryEntryName(biome, "biome").getVisualOrderText(), BookLayout.TEXT_COLOR, 4));
+            }
+        }
+        return lines;
     }
 
     private List<Page> buildBossPages(StageDefinition.BossInfo boss) {

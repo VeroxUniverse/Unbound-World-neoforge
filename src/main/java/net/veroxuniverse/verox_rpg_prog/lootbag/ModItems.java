@@ -1,6 +1,7 @@
 package net.veroxuniverse.verox_rpg_prog.lootbag;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.veroxuniverse.verox_rpg_prog.RPGProgression;
@@ -19,6 +20,6 @@ public class ModItems {
     public static final DeferredHolder<Item, StageBookItem> STAGE_BOOK = ITEMS.registerItem(
             "stage_book",
             StageBookItem::new,
-            new Item.Properties().stacksTo(1)
+            new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
     );
 }

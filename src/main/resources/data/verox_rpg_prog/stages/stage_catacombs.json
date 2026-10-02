@@ -1,0 +1,99 @@
+{
+  "required_mods": [
+    "irons_spellbooks"
+  ],
+  "order": 3,
+  "stage_translation_key": "stage.verox_rpg_prog.catacombs",
+  "territories": [
+    {
+      "structures": [
+        "irons_spellbooks:catacombs"
+      ],
+      "damage_per_second": 1.0,
+      "max_health_percent_per_second": 0.05,
+      "tint": "#2A2A1A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.35,
+        "damage_multiplier": 1.25
+      }
+    }
+  ],
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.4,
+    "damage_multiplier": 1.25,
+    "knockback_resistance_multiplier": 1.0,
+    "armor_multiplier": 1.1
+  },
+  "main_boss": {
+    "entity_id": "irons_spellbooks:dead_king",
+    "display_item": "irons_spellbooks:dead_king_phylactery",
+    "location_translation_key": "boss.verox_rpg_prog.dead_king.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 40.0,
+      "health_per_extra_player": 0.5,
+      "damage_per_extra_player": 0.2,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "irons_spellbooks:arcane_essence",
+          "count_min": 4,
+          "count_max": 8,
+          "chance": 1.0
+        },
+        {
+          "item": "irons_spellbooks:epic_ink",
+          "count_min": 1,
+          "count_max": 2,
+          "chance": 0.5
+        }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "irons_spellbooks:necromancer",
+      "display_item": "irons_spellbooks:blood_vial",
+      "location_translation_key": "boss.verox_rpg_prog.necromancer.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "irons_spellbooks:common_ink",
+    "irons_spellbooks:uncommon_ink",
+    "irons_spellbooks:rare_ink",
+    "irons_spellbooks:epic_ink",
+    "irons_spellbooks:legendary_ink",
+    "irons_spellbooks:blood_staff",
+    "irons_spellbooks:decrepit_scythe",
+    "irons_spellbooks:misery",
+    "irons_spellbooks:legionnaire_flamberge",
+    "irons_spellbooks:conjurers_talisman",
+    "irons_spellbooks:betrayer_signet",
+    "irons_spellbooks:wicked_bone_ring",
+    "irons_spellbooks:dead_king_phylactery",
+    "irons_spellbooks:plagued_helmet",
+    "irons_spellbooks:plagued_chestplate",
+    "irons_spellbooks:plagued_leggings",
+    "irons_spellbooks:plagued_boots",
+    "irons_spellbooks:cultist_helmet",
+    "irons_spellbooks:cultist_chestplate",
+    "irons_spellbooks:cultist_leggings",
+    "irons_spellbooks:cultist_boots",
+    "irons_spellbooks:greater_conjurers_talisman"
+  ],
+  "locked_blocks_to_mine": [
+    "irons_spellbooks:arcane_anvil",
+    "irons_spellbooks:scroll_forge",
+    "irons_spellbooks:alchemist_cauldron"
+  ]
+}

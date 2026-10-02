@@ -1,8 +1,8 @@
 {
-  "excluded_mods": [
+  "required_mods": [
     "irons_spellbooks"
   ],
-  "order": 4,
+  "order": 6,
   "stage_translation_key": "stage.verox_rpg_prog.void_call",
   "territories": [
     {
@@ -69,11 +69,23 @@
         "mode": "additional",
         "drops": []
       }
+    },
+    {
+      "entity_id": "irons_spellbooks:magehunter_vindicator",
+      "display_item": "irons_spellbooks:magehunter",
+      "location_translation_key": "boss.verox_rpg_prog.magehunter_vindicator.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
     }
   ],
   "locked_items": [
     "minecraft:elytra",
-    "minecraft:shulker_box"
+    "minecraft:shulker_box",
+    "irons_spellbooks:dragonskin",
+    "irons_spellbooks:teleportation_amulet"
   ],
   "locked_blocks_to_mine": [
     "minecraft:beacon"

@@ -115,13 +115,30 @@ repositories {
         name "KosmX's maven"
         url 'https://maven.kosmx.dev/'
     }
+    maven {
+        name = "Iron's Maven - Release"
+        url = "https://code.redspace.io/releases"
+    }
+    maven {
+        name = "Iron's Maven - Snapshots"
+        url = "https://code.redspace.io/snapshots"
+    }
+    maven { url = "https://maven.enginehub.org/repo/" }
+    maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
 }
 
 dependencies {
+
+    // JEI
     compileOnly "mezz.jei:jei-1.21-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
 
+    // Irons Spellbooks
+    runtimeOnly "io.redspace:irons_spellbooks:${irons_spells_version}"
+    runtimeOnly "curse.maven:irons-lib-1492763:8973642"
+
+    // API
     compileOnly "curse.maven:curios-309927:6529130"
     runtimeOnly "curse.maven:curios-309927:6529130"
 
@@ -131,8 +148,22 @@ dependencies {
 
     runtimeOnly "curse.maven:just-enough-resources-jer-240630:6506298"
 
+    // Jade
     compileOnly "curse.maven:jade-324717:5884231"
     runtimeOnly "curse.maven:jade-324717:5884231"
+
+    // Geckolib
+    compileOnly "software.bernie.geckolib:geckolib-neoforge-${geckolib_version}"
+    runtimeOnly "software.bernie.geckolib:geckolib-neoforge-${geckolib_version}"
+
+    // CAELUES
+    compileOnly "com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}:api"
+    runtimeOnly "com.illusivesoulworks.caelus:caelus-neoforge:${caelus_version}"
+
+    // Player Animator
+    //compileOnly "dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}"
+    //runtimeOnly "dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}"
+    runtimeOnly "dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

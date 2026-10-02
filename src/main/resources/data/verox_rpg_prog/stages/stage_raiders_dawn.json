@@ -42,7 +42,7 @@
           "item": "minecraft:totem_of_undying",
           "count_min": 1,
           "count_max": 1,
-          "chance": 1.0
+          "chance": 0.5
         }
       ]
     }

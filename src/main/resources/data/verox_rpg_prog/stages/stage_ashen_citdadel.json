@@ -1,0 +1,100 @@
+{
+  "required_mods": [
+    "irons_spellbooks"
+  ],
+  "order": 5,
+  "stage_translation_key": "stage.verox_rpg_prog.ashen_citadel",
+  "territories": [
+    {
+      "structures": [
+        "irons_spellbooks:citadel"
+      ],
+      "damage_per_second": 1.5,
+      "max_health_percent_per_second": 0.06,
+      "tint": "#5A2A0A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.5,
+        "damage_multiplier": 1.35,
+        "attributes": [
+          {
+            "attribute": "unbound_lib:crit_chance",
+            "amount": 0.1
+          }
+        ]
+      }
+    }
+  ],
+  "mob_attribute_scaling": {
+    "health_multiplier": 1.65,
+    "damage_multiplier": 1.45,
+    "knockback_resistance_multiplier": 1.05,
+    "armor_multiplier": 1.2,
+    "attributes": [
+      {
+        "attribute": "unbound_lib:crit_chance",
+        "amount": 0.05
+      },
+      {
+        "attribute": "unbound_lib:armor_penetration",
+        "amount": 0.1
+      }
+    ]
+  },
+  "main_boss": {
+    "entity_id": "irons_spellbooks:fire_boss",
+    "display_item": "irons_spellbooks:cinder_essence",
+    "location_translation_key": "boss.verox_rpg_prog.fire_boss.location",
+    "guaranteed_drops": [],
+    "player_scaling": {
+      "radius": 48.0,
+      "health_per_extra_player": 0.5,
+      "damage_per_extra_player": 0.2,
+      "knockback_resistance_per_extra_player": 0.0,
+      "armor_per_extra_player": 0.0
+    },
+    "drops": {
+      "mode": "additional",
+      "drops": [
+        {
+          "item": "irons_spellbooks:cinder_essence",
+          "count_min": 2,
+          "count_max": 4,
+          "chance": 1.0
+        },
+        {
+          "item": "irons_spellbooks:fire_rune",
+          "count_min": 1,
+          "count_max": 2,
+          "chance": 0.5
+        }
+      ]
+    }
+  },
+  "optional_bosses": [
+    {
+      "entity_id": "irons_spellbooks:citadel_keeper",
+      "display_item": "irons_spellbooks:keeper_flamberge",
+      "location_translation_key": "boss.verox_rpg_prog.citadel_keeper.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "irons_spellbooks:cinder_essence",
+    "irons_spellbooks:divine_soulshard",
+    "irons_spellbooks:pyrium_ingot",
+    "irons_spellbooks:pyrium_staff",
+    "irons_spellbooks:keeper_flamberge",
+    "irons_spellbooks:hellrazor",
+    "irons_spellbooks:infernal_sorcerer_chestplate",
+    "irons_spellbooks:paladin_chestplate",
+    "irons_spellbooks:speed_boots"
+  ],
+  "locked_dimensions": [
+    "minecraft:the_end"
+  ]
+}

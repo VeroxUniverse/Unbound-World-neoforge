@@ -1,0 +1,45 @@
+{
+  "required_mods": [
+    "irons_spellbooks"
+  ],
+  "order": 1,
+  "optional_bosses": [
+    {
+      "entity_id": "irons_spellbooks:priest",
+      "display_item": "irons_spellbooks:divine_pearl",
+      "location_translation_key": "boss.verox_rpg_prog.priest.location",
+      "guaranteed_drops": [],
+      "drops": {
+        "mode": "additional",
+        "drops": []
+      }
+    }
+  ],
+  "locked_items": [
+    "irons_spellbooks:artificer_cane",
+    "irons_spellbooks:lightning_rod",
+    "irons_spellbooks:amethyst_rapier",
+    "irons_spellbooks:autoloader_crossbow",
+    "irons_spellbooks:fireward_ring",
+    "irons_spellbooks:frostward_ring",
+    "irons_spellbooks:poisonward_ring",
+    "irons_spellbooks:lurker_ring",
+    "irons_spellbooks:amethyst_resonance_charm",
+    "irons_spellbooks:invisibility_ring",
+    "irons_spellbooks:visibility_ring",
+    "irons_spellbooks:expulsion_ring",
+    "irons_spellbooks:wizard_hat",
+    "irons_spellbooks:wizard_helmet",
+    "irons_spellbooks:wizard_chestplate",
+    "irons_spellbooks:wizard_leggings",
+    "irons_spellbooks:wizard_boots",
+    "irons_spellbooks:electromancer_helmet",
+    "irons_spellbooks:electromancer_chestplate",
+    "irons_spellbooks:electromancer_leggings",
+    "irons_spellbooks:electromancer_boots",
+    "irons_spellbooks:priest_helmet",
+    "irons_spellbooks:priest_chestplate",
+    "irons_spellbooks:priest_leggings",
+    "irons_spellbooks:priest_boots"
+  ]
+}
