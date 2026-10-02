@@ -149,6 +149,10 @@ public class StageManager {
         return STAGES.values();
     }
 
+    public static Map<ResourceLocation, StageDefinition> getStagesById() {
+        return Map.copyOf(STAGES);
+    }
+
     public static Optional<StageDefinition> getStageForBoss(ResourceLocation entityId) {
         return Optional.ofNullable(MAIN_BOSS_TRIGGERS.get(entityId));
     }

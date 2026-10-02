@@ -6,14 +6,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.veroxuniverse.verox_rpg_prog.RPGProgression;
 
-public record SyncStagePayload(int unlockedOrder) implements CustomPacketPayload {
+public record TerritoryStatePayload(int tintColor) implements CustomPacketPayload {
 
-    public static final Type<SyncStagePayload> TYPE = new Type<>(RPGProgression.id("sync_stage"));
+    public static final Type<TerritoryStatePayload> TYPE = new Type<>(RPGProgression.id("territory_state"));
 
-    public static final StreamCodec<ByteBuf, SyncStagePayload> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT,
-            SyncStagePayload::unlockedOrder,
-            SyncStagePayload::new
+    public static final StreamCodec<ByteBuf, TerritoryStatePayload> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            TerritoryStatePayload::tintColor,
+            TerritoryStatePayload::new
     );
 
     @Override

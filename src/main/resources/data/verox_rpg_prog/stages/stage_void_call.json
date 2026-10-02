@@ -1,14 +1,35 @@
 {
   "order": 4,
   "stage_translation_key": "stage.verox_rpg_prog.void_call",
+  "territories": [
+    {
+      "structures": [
+        "minecraft:end_city"
+      ],
+      "damage_per_second": 1.5,
+      "max_health_percent_per_second": 0.06,
+      "tint": "#3A0A4A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.4,
+        "damage_multiplier": 1.25
+      }
+    }
+  ],
   "mob_attribute_scaling": {
     "health_multiplier": 1.8,
     "damage_multiplier": 1.6,
     "knockback_resistance_multiplier": 1.1,
     "armor_multiplier": 1.25,
     "attributes": [
-      { "attribute": "unbound_lib:crit_chance", "amount": 0.05 },
-      { "attribute": "unbound_lib:armor_penetration", "amount": 0.1 }
+      {
+        "attribute": "unbound_lib:crit_chance",
+        "amount": 0.05
+      },
+      {
+        "attribute": "unbound_lib:armor_penetration",
+        "amount": 0.1
+      }
     ]
   },
   "main_boss": {
@@ -26,7 +47,12 @@
     "drops": {
       "mode": "additional",
       "drops": [
-        { "item": "minecraft:elytra", "count_min": 1, "count_max": 1, "chance": 1.0 }
+        {
+          "item": "minecraft:elytra",
+          "count_min": 1,
+          "count_max": 1,
+          "chance": 1.0
+        }
       ]
     }
   },

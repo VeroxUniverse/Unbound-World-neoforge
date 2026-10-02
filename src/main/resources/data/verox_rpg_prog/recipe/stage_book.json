@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "minecraft:red_dye" },
+    { "tag": "c:ingots/gold" }
+  ],
+  "result": {
+    "id": "verox_rpg_prog:stage_book",
+    "count": 1
+  }
+}

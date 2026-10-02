@@ -1,6 +1,23 @@
 {
   "order": 1,
   "stage_translation_key": "stage.verox_rpg_prog.echoes",
+  "territories": [
+    {
+      "structures": [
+        "minecraft:monument",
+        "minecraft:ocean_ruin_cold",
+        "minecraft:ocean_ruin_warm"
+      ],
+      "damage_per_second": 1.0,
+      "max_health_percent_per_second": 0.04,
+      "tint": "#0A2A5A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.25,
+        "damage_multiplier": 1.15
+      }
+    }
+  ],
   "mob_attribute_scaling": {
     "health_multiplier": 0.0,
     "damage_multiplier": 0.0,

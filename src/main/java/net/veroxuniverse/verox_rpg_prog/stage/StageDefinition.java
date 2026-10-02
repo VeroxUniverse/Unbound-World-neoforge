@@ -18,8 +18,38 @@ public record StageDefinition(
         List<BossInfo> optionalBosses,
         List<ResourceLocation> lockedItems,
         List<ResourceLocation> lockedBlocks,
-        List<ResourceLocation> lockedDimensions
+        List<ResourceLocation> lockedDimensions,
+        List<Territory> territories
 ) {
+    public record Territory(
+            List<String> structures,
+            List<String> biomes,
+            float damagePerSecond,
+            float maxHealthPercentPerSecond,
+            String tint,
+            boolean protectStructures,
+            MobAttributeScaling mobScaling
+    ) {
+        public static final Codec<Territory> CODEC = RecordCodecBuilder.create(i -> i.group(
+                Codec.STRING.listOf().optionalFieldOf("structures", List.of()).forGetter(Territory::structures),
+                Codec.STRING.listOf().optionalFieldOf("biomes", List.of()).forGetter(Territory::biomes),
+                Codec.FLOAT.optionalFieldOf("damage_per_second", 1.0f).forGetter(Territory::damagePerSecond),
+                Codec.FLOAT.optionalFieldOf("max_health_percent_per_second", 0.0f).forGetter(Territory::maxHealthPercentPerSecond),
+                Codec.STRING.optionalFieldOf("tint", "#5A0A0A").forGetter(Territory::tint),
+                Codec.BOOL.optionalFieldOf("protect_structures", true).forGetter(Territory::protectStructures),
+                MobAttributeScaling.CODEC.optionalFieldOf("mob_scaling", MobAttributeScaling.NONE).forGetter(Territory::mobScaling)
+        ).apply(i, Territory::new));
+
+        public int tintColor() {
+            String value = this.tint.startsWith("#") ? this.tint.substring(1) : this.tint;
+            try {
+                return Integer.parseInt(value, 16) & 0xFFFFFF;
+            } catch (NumberFormatException exception) {
+                return 0x5A0A0A;
+            }
+        }
+    }
+
     public record AttributeEntry(
             ResourceLocation attribute,
             double amount,
@@ -180,7 +210,8 @@ public record StageDefinition(
                     BossInfo.CODEC.listOf().optionalFieldOf("optional_bosses", List.of()).forGetter(StageDefinition::optionalBosses),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("locked_items", List.of()).forGetter(StageDefinition::lockedItems),
                     ResourceLocation.CODEC.listOf().optionalFieldOf("locked_blocks_to_mine", List.of()).forGetter(StageDefinition::lockedBlocks),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("locked_dimensions", List.of()).forGetter(StageDefinition::lockedDimensions)
+                    ResourceLocation.CODEC.listOf().optionalFieldOf("locked_dimensions", List.of()).forGetter(StageDefinition::lockedDimensions),
+                    Territory.CODEC.listOf().optionalFieldOf("territories", List.of()).forGetter(StageDefinition::territories)
             ).apply(instance, StageDefinition::new)
     );
 }

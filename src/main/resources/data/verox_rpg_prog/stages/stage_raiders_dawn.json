@@ -1,6 +1,22 @@
 {
   "order": 0,
   "stage_translation_key": "stage.verox_rpg_prog.raiders_dawn",
+  "territories": [
+    {
+      "structures": [
+        "minecraft:mansion",
+        "minecraft:pillager_outpost"
+      ],
+      "damage_per_second": 0.5,
+      "max_health_percent_per_second": 0.03,
+      "tint": "#3A3F2A",
+      "protect_structures": true,
+      "mob_scaling": {
+        "health_multiplier": 1.2,
+        "damage_multiplier": 1.1
+      }
+    }
+  ],
   "mob_attribute_scaling": {
     "health_multiplier": 0.0,
     "damage_multiplier": 0.0,
